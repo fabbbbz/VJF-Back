@@ -9,6 +9,6 @@
 <h2 id="about-the-project"> :pencil: About The Project</h2>
 
 <p align="justify"> 
-La capsule projet fin de batch 
+Mystery dish delivery mobile appliction
 </p>
 
