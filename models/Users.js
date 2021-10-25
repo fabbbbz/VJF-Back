@@ -17,6 +17,6 @@ var userSchema = mongoose.Schema({
     favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'foods' }]
 });
 
-var userModel = mongoose.model('users', userSchema);
+var userModel = mongoose.model('Users', userSchema);
 
 module.exports = userModel;
