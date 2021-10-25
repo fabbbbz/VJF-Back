@@ -7,9 +7,9 @@ const validateEmail = require('../functions/validateEmails') //import function t
 exports.signUp = async (req, res, next) => {
     let result = false
     let token = null
-    console.log(req.body.lastnameFromFront)
-    console.log(req.body.emailFromFront)
-    console.log(req.body.passwordFromFront)
+    console.log("lastname ", req.body.lastNameFromFront)
+    console.log("email ", req.body.emailFromFront)
+    console.log("pass ", req.body.passwordFromFront)
     try {
         // Check if this user already exist
         let user = await User.findOne({ email: req.body.emailFromFront });
@@ -41,6 +41,13 @@ exports.signUp = async (req, res, next) => {
             phone: req.body.phoneFromFront,
             password: hash,
             token: uid2(32),
+            adresse: [req.body.adresse],
+            allergies: [req.body.allergies],
+            regimeAlim: req.body.regimeAlim,
+            dont: [req.body.dont],
+            //orders et favorites doivent recevoir des clées étrangeres, la bdd etant vide on recupère juste des datas depuis postman en attendant
+            orders: [req.body.orders],
+            favorites: [req.body.favorites]
         })
         // Save user in MongoDB
         saveUser = await newUser.save()
@@ -111,11 +118,14 @@ exports.signIn = async (req, res, next) => {
 
 exports.favorites = async (req, res, next) => {
     try {
-        var userToken = await User.findOne({ token: req.query.token })
+        console.log(req.query.token)
 
-        var favorites = await User.
-            findById(userToken)
-            .populate('favorites')
+        var userToken = await User.findOne({ token: req.query.token })
+        var favorites = userToken // testing
+        // bout de code utile sur des clés etrangères 
+        // var favorites = await User.
+        //     findById(userToken)
+        //     .populate('favorites')
 
         res.json({ result: 'success', favorites: favorites })
 
