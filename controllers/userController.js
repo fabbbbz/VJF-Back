@@ -168,9 +168,12 @@ exports.favoritesDel = async (req, res, next) => {
 
 exports.updateUser = async (req, res, next) => {
 	try {
+		const { diet, dont } = req.body
+		console.log(dont)
+
 		const doc = await User.findOneAndUpdate(
 			{ token: req.params.token },
-			{ regimeAlim: req.body.diet, dont: req.body.dont },
+			{ regimeAlim: diet, dont: dont },
 			{ new: true }
 		)
 		if (!doc) {
