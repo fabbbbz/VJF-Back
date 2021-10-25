@@ -114,14 +114,14 @@ exports.signIn = async (req, res, next) => {
 
 exports.favorites = async (req, res, next) => {
 	try {
-		console.log(req.query.token)
-
-		var userToken = await User.findOne({ token: req.query.token })
+		var userToken = await User.findOne({ token: req.params.token })
 		var favorites = userToken // testing
 		// bout de code utile sur des clés etrangères
 		// var favorites = await User.
 		//     findById(userToken)
 		//     .populate('favorites')
+		console.log(userToken)
+		res.json({ result: 'success', favorites: favorites })
 
 		res.json({ result: 'success', favorites: favorites })
 	} catch (err) {
@@ -133,7 +133,6 @@ exports.favorites = async (req, res, next) => {
 
 exports.favoritesAdd = async (req, res, next) => {
 	try {
-		console.log('YOLOOOOOO')
 		console.log('coucou', req.body)
 		var addFavorite = await User.updateOne(
 			{ token: req.body.token },
