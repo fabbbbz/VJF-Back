@@ -10,11 +10,11 @@ var userSchema = mongoose.Schema({
     email: String,
     password: String,
     token: String,
-    allergies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'allergies' }],
-    regimeAlim: [{ type: String }],
-    dont: [{ type: mongoose.Schema.Types.ObjectId, ref: 'donts' }],
-    orders: [{ type: mongoose.Schema.Types.ObjectId, ref: 'orders' }],
-    favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'foods' }]
+    allergies: [{ type: String }],
+    regimeAlim: String,
+    dont: [{ type: String }],
+    orders: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Orders' }],
+    favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Meals' }]
 });
 
 var userModel = mongoose.model('Users', userSchema);

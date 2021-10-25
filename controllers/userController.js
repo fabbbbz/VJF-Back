@@ -1,5 +1,5 @@
 const uid2 = require('uid2')
-const User = require('../models/userModel')
+const User = require('../models/Users')
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const validateEmail = require('../functions/validateEmails') //import function to check emails
@@ -110,34 +110,34 @@ exports.signIn = async (req, res, next) => {
 }
 
 exports.favorites = async (req, res, next) => {
-	try {
-		// Reading favorites
-		res.json({ result: 'success' })
-	} catch (err) {
-		// Catch error
-		// console.log(err)
-		res.json({ result: false, message: err.message })
-	}
+    try {
+        // Reading favorites
+        res.json({ result: 'success' })
+    } catch (err) {
+        // Catch error
+        // console.log(err)
+        res.json({ result: false, message: err.message })
+    }
 }
 
 exports.favoritesAdd = async (req, res, next) => {
-	try {
-		// Adding favorites
-		res.json({ result: 'success' })
-	} catch (err) {
-		// Catch error
-		// console.log(err)
-		res.json({ result: false, message: err.message })
-	}
+    try {
+        // Adding favorites
+        res.json({ result: 'success' })
+    } catch (err) {
+        // Catch error
+        // console.log(err)
+        res.json({ result: false, message: err.message })
+    }
 }
 
 exports.favoritesDel = async (req, res, next) => {
-	try {
-		// Deleting favorites
-		res.json({ result: 'success' })
-	} catch (err) {
-		// Catch error
-		// console.log(err)
-		res.json({ result: false, message: err.message })
-	}
+    try {
+        // Deleting favorites
+        res.json({ result: 'success' })
+    } catch (err) {
+        // Catch error
+        // console.log(err)
+        res.json({ result: false, message: err.message })
+    }
 }
