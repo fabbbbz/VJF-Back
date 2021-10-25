@@ -6,7 +6,7 @@ const userRouter = require('./routes/userRoutes')
 
 // start express app
 const app = express()
-
+app.use(express.json({ limit: '100kb' }))
 // routers
 // app.use('/', indexRouter)
 app.use('/users', userRouter)

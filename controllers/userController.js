@@ -111,8 +111,14 @@ exports.signIn = async (req, res, next) => {
 
 exports.favorites = async (req, res, next) => {
     try {
-        // Reading favorites
-        res.json({ result: 'success' })
+        var userToken = await User.findOne({ token: req.query.token })
+
+        var favorites = await User.
+            findById(userToken)
+            .populate('favorites')
+
+        res.json({ result: 'success', favorites: favorites })
+
     } catch (err) {
         // Catch error
         // console.log(err)
@@ -122,8 +128,12 @@ exports.favorites = async (req, res, next) => {
 
 exports.favoritesAdd = async (req, res, next) => {
     try {
-        // Adding favorites
+        console.log("YOLOOOOOO")
+        console.log("coucou", req.body)
+        var addFavorite = await User.updateOne({ token: req.body.token }, { $push: { favorites: req.body.meal_id } });
+
         res.json({ result: 'success' })
+
     } catch (err) {
         // Catch error
         // console.log(err)
@@ -133,8 +143,11 @@ exports.favoritesAdd = async (req, res, next) => {
 
 exports.favoritesDel = async (req, res, next) => {
     try {
-        // Deleting favorites
-        res.json({ result: 'success' })
+        var updateFavorites = await User.updateOne({ token: req.params.token }, { $pull: { favorites: req.params.meal_id } })
+
+        var favorites = await User.findOne({ token: req.params.token }).populate('favorites')
+        res.json({ result: 'success', favorites: favorites })
+
     } catch (err) {
         // Catch error
         // console.log(err)

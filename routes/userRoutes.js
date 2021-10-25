@@ -6,8 +6,8 @@ const { signUp, signIn, favorites, favoritesAdd, favoritesDel } = require('../co
 router.post('/sign-up', signUp)
 //Route for Sign-In
 router.post('/sign-in', signIn)
-router.get('/users/:id/favorites', favorites)
-router.post('/users/:id/favorites', favoritesAdd)
-router.delete('/users/:id/favorites', favoritesDel)
+router.get('/:token/favorites/:meal_id', favorites)
+router.post('/favorites', favoritesAdd)
+router.delete('/:token/favorites/:meal_id', favoritesDel)
 
 module.exports = router
