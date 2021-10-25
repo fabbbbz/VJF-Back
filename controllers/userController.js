@@ -20,3 +20,36 @@ exports.login = async (req, res, next) => {
 		res.json({ result: false, message: err.message })
 	}
 }
+
+exports.favorites = async (req, res, next) => {
+	try {
+		// Reading favorites
+		res.json({ result: 'success' })
+	} catch (err) {
+		// Catch error
+		// console.log(err)
+		res.json({ result: false, message: err.message })
+	}
+}
+
+exports.favoritesAdd = async (req, res, next) => {
+	try {
+		// Adding favorites
+		res.json({ result: 'success' })
+	} catch (err) {
+		// Catch error
+		// console.log(err)
+		res.json({ result: false, message: err.message })
+	}
+}
+
+exports.favoritesDel = async (req, res, next) => {
+	try {
+		// Deleting favorites
+		res.json({ result: 'success' })
+	} catch (err) {
+		// Catch error
+		// console.log(err)
+		res.json({ result: false, message: err.message })
+	}
+}
