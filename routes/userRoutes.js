@@ -1,6 +1,13 @@
-var express = require('express');
-var router = express.Router();
-const { signUp, signIn, favorites, favoritesAdd, favoritesDel } = require('../controllers/userController')
+var express = require('express')
+var router = express.Router()
+const {
+	signUp,
+	signIn,
+	favorites,
+	favoritesAdd,
+	favoritesDel,
+	updateUser,
+} = require('../controllers/userController')
 
 //Route for Sign-Up
 router.post('/sign-up', signUp)
@@ -9,5 +16,6 @@ router.post('/sign-in', signIn)
 router.get('/favorites/:token', favorites)
 router.post('/favorites', favoritesAdd)
 router.delete('/favorites/:token/:meal_id', favoritesDel)
+router.put('/update-me/:token', updateUser)
 
 module.exports = router
