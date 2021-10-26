@@ -26,5 +26,8 @@
     "morgan": "^1.10.0",
     "public-ip": "^4.0.4",
     "uid2": "^1.0.0"
+  },
+  "devDependencies": {
+    "supertest": "^6.1.6"
   }
 }
