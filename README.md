@@ -3,6 +3,8 @@
 </p>
 <h1 align="center"> Vite J'ai Faim !! </h1>
 
+  <img src="https://img.shields.io/badge/Version-0.1-%3CCOLOR%3E">
+  
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 <!-- ABOUT THE PROJECT -->
