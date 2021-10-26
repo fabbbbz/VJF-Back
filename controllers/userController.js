@@ -167,12 +167,12 @@ exports.favoritesDel = async (req, res, next) => {
 
 exports.updateUser = async (req, res, next) => {
 	try {
-		const { diet, dont } = req.body
+		const { diet, dont, allergies } = req.body
 		console.log(dont)
 
 		const doc = await User.findOneAndUpdate(
 			{ token: req.params.token },
-			{ regimeAlim: diet, dont: dont },
+			{ regimeAlim: diet, dont: dont, allergies: allergies },
 			{ new: true }
 		)
 		if (!doc) {
