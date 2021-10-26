@@ -133,16 +133,13 @@ exports.favorites = async (req, res, next) => {
 
 exports.favoritesAdd = async (req, res, next) => {
 	try {
-		console.log('coucou', req.body)
 		var addFavorite = await User.updateOne(
 			{ token: req.body.token },
 			{ $push: { favorites: req.body.meal_id } }
 		)
 
-		res.json({ result: 'success' })
+		res.json({ result: 'success', modified: addFavorite.modifiedCount })
 	} catch (err) {
-		// Catch error
-		// console.log(err)
 		res.json({ result: false, message: err.message })
 	}
 }
