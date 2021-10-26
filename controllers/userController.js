@@ -8,6 +8,7 @@ exports.signUp = async (req, res, next) => {
 	let result = false
 	let token = null
 	console.log('lastname ', req.body.lastNameFromFront)
+	console.log('firstname ', req.body.firstNameFromFront)
 	console.log('email ', req.body.emailFromFront)
 	console.log('pass ', req.body.passwordFromFront)
 	try {
@@ -20,6 +21,7 @@ exports.signUp = async (req, res, next) => {
 		// Check if fields is correctly filled
 		if (
 			req.body.lastNameFromFront == '' ||
+			req.body.firstNameFromFront == '' ||
 			req.body.emailFromFront == '' ||
 			req.body.passwordFromFront == ''
 		) {
@@ -81,13 +83,13 @@ exports.signIn = async (req, res, next) => {
 			// If field is missing add error is catch
 			throw Error('Field is missing!')
 		} else {
-			user = await userModel.findOne({
+			user = await User.findOne({
 				email: req.body.emailFromFront,
 			})
 		}
 		if (user) {
 			if (bcrypt.compareSync(req.body.passwordFromFront, user.password)) {
-				result = succes
+				result = true
 				token = user.token
 			} else {
 				// Add error in catch
