@@ -19,9 +19,17 @@ exports.getOrder = async (req, res, next) => {
 			meals: selectedMeal._id,
 			price: selectedMeal.price,
 			date: Date.now(),
+			status: 'pending',
 		})
 
-		res.json({ result: 'success', meals, selectedMeal, order })
+		// Update the user orders
+		const updatedUser = await User.findByIdAndUpdate(
+			user._id,
+			{ $push: { orders: order._id } },
+			{ new: true }
+		)
+
+		res.json({ result: 'success', selectedMeal, order, updatedUser })
 	} catch (err) {
 		res.json({ result: 'fail', err: err.message })
 	}
