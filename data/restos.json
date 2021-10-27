@@ -1,0 +1,30 @@
+[
+	{
+		"name": "La pizzeria des gros",
+		"lat": 48.8877782,
+		"lon": 2.3037396,
+		"meals": ["6177f14b3b88924d74b15b48", "6179138b8b741bd15b9e9baf"]
+	},
+	{
+		"name": "La fromagerie du coin",
+		"lat": 48.8877782,
+		"lon": 2.3037396,
+		"meals": ["6179138b8b741bd15b9e9bb1"]
+	},
+	{
+		"name": "Chez Mamie Lulu",
+		"lat": 48.8877782,
+		"lon": 2.3037396,
+		"meals": [
+			"6179138b8b741bd15b9e9bad",
+			"6179138b8b741bd15b9e9bb0",
+			"6179138b8b741bd15b9e9bac"
+		]
+	},
+	{
+		"name": "Sayonara Sushi",
+		"lat": 48.8877782,
+		"lon": 2.3037396,
+		"meals": ["6179138b8b741bd15b9e9bae"]
+	}
+]
