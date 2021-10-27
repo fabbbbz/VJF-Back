@@ -10,6 +10,7 @@ exports.signUp = async (req, res, next) => {
     let result = false
     let token = null
     console.log('lastname ', req.body.lastNameFromFront)
+    console.log('firstname ', req.body.firstNameFromFront)
     console.log('email ', req.body.emailFromFront)
     console.log('pass ', req.body.passwordFromFront)
     try {
@@ -22,6 +23,7 @@ exports.signUp = async (req, res, next) => {
         // Check if fields is correctly filled
         if (
             req.body.lastNameFromFront == '' ||
+            req.body.firstNameFromFront == '' ||
             req.body.emailFromFront == '' ||
             req.body.passwordFromFront == ''
         ) {
@@ -83,13 +85,13 @@ exports.signIn = async (req, res, next) => {
             // If field is missing add error is catch
             throw Error('Field is missing!')
         } else {
-            user = await userModel.findOne({
+            user = await User.findOne({
                 email: req.body.emailFromFront,
             })
         }
         if (user) {
             if (bcrypt.compareSync(req.body.passwordFromFront, user.password)) {
-                result = succes
+                result = true
                 token = user.token
             } else {
                 // Add error in catch
@@ -163,14 +165,13 @@ exports.favorites = async (req, res, next) => {
 
 exports.favoritesAdd = async (req, res, next) => {
     try {
+        var addFavorite = await User.updateOne(
+            { token: req.body.token },
+            { $push: { favorites: req.body.meal_id } }
+        )
 
-        console.log("coucou", req.body)
-        var addFavorite = await User.updateOne({ token: req.body.token }, { $push: { favorites: req.body.meal_id } });
-
-        res.json({ result: 'success' })
+        res.json({ result: 'success', modified: addFavorite.modifiedCount })
     } catch (err) {
-        // Catch error
-        // console.log(err)
         res.json({ result: false, message: err.message })
     }
 }
@@ -193,9 +194,12 @@ exports.favoritesDel = async (req, res, next) => {
 
 exports.updateUser = async (req, res, next) => {
     try {
+        const { diet, dont, allergies } = req.body
+        console.log(dont)
+
         const doc = await User.findOneAndUpdate(
             { token: req.params.token },
-            { regimeAlim: req.body.diet, dont: req.body.dont },
+            { regimeAlim: diet, dont: dont, allergies: allergies },
             { new: true }
         )
         if (!doc) {
