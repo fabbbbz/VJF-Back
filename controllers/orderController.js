@@ -3,7 +3,7 @@ const User = require('../models/Users')
 const Order = require('../models/Orders')
 const Meal = require('../models/Meals')
 
-exports.getOrder = async (req, res, next) => {
+exports.makeOrder = async (req, res, next) => {
 	try {
 		console.log(req.body)
 		const user = await User.findOne({ token: req.params.token })
@@ -30,6 +30,18 @@ exports.getOrder = async (req, res, next) => {
 		)
 
 		res.json({ result: 'success', selectedMeal, order, updatedUser })
+	} catch (err) {
+		res.json({ result: 'fail', err: err.message })
+	}
+}
+
+exports.getOrder = async (req, res, next) => {
+	try {
+		const user = await User.findOne({ token: req.params.token })
+		const currentOrder = user.orders[user.orders.length - 1] // get the last order pushed
+		const orderDetails = await Order.findById(currentOrder)
+		console.log('get my order')
+		res.json({ result: 'success', orderPrice: orderDetails.price })
 	} catch (err) {
 		res.json({ result: 'fail', err: err.message })
 	}
