@@ -9,7 +9,7 @@ exports.makeOrder = async (req, res, next) => {
 		const user = await User.findOne({ token: req.params.token })
 		const meals = await Meal.find({
 			regimAlim: { $in: user.regimAlim },
-			mood: req.body.mood,
+			mood: { $in: req.body.mood },
 			price: { $gte: req.body.minprice, $lte: req.body.maxprice },
 		})
 		const selectedMeal = meals[Math.floor(Math.random() * meals.length)]

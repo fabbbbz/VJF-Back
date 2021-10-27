@@ -6,7 +6,7 @@ var mealsSchema = mongoose.Schema({
 	price: Number,
 	ingredients: [{ type: String }],
 	regimeAlim: [{ type: String }],
-	mood: String,
+	mood: [String],
 })
 
 var Meal = mongoose.model('Meals', mealsSchema)
