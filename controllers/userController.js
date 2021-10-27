@@ -1,6 +1,11 @@
 const uid2 = require('uid2')
 const User = require('../models/Users')
+<<<<<<< HEAD
 const Order = require('../models/Orders')
+=======
+const mealsModel = require('../models/Meals')
+
+>>>>>>> 6752d2c7df04010ab846deef03bda75ad2050fd8
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const validateEmail = require('../functions/validateEmails') //import function to check emails
@@ -10,6 +15,7 @@ exports.signUp = async (req, res, next) => {
 	let result = false
 	let token = null
 	console.log('lastname ', req.body.lastNameFromFront)
+	console.log('firstname ', req.body.firstNameFromFront)
 	console.log('email ', req.body.emailFromFront)
 	console.log('pass ', req.body.passwordFromFront)
 	try {
@@ -22,6 +28,7 @@ exports.signUp = async (req, res, next) => {
 		// Check if fields is correctly filled
 		if (
 			req.body.lastNameFromFront == '' ||
+			req.body.firstNameFromFront == '' ||
 			req.body.emailFromFront == '' ||
 			req.body.passwordFromFront == ''
 		) {
@@ -83,13 +90,13 @@ exports.signIn = async (req, res, next) => {
 			// If field is missing add error is catch
 			throw Error('Field is missing!')
 		} else {
-			user = await userModel.findOne({
+			user = await User.findOne({
 				email: req.body.emailFromFront,
 			})
 		}
 		if (user) {
 			if (bcrypt.compareSync(req.body.passwordFromFront, user.password)) {
-				result = succes
+				result = true
 				token = user.token
 			} else {
 				// Add error in catch
@@ -114,18 +121,42 @@ exports.signIn = async (req, res, next) => {
 	}
 }
 
+exports.getUserInfo = async (req, res, next) => {
+	try {
+		var user = await User.findOne({ token: req.params.token })
+
+		var userInfo = {
+			firstName: user.firstName,
+			lastName: user.lastName,
+			email: user.email,
+			phone: user.phone,
+			token: user.token,
+			adresse: user.adresse,
+			allergies: user.allergies,
+			dont: user.dont,
+			orders: user.orders,
+			favorites: user.favorites,
+			regimeAlim: user.regimeAlim,
+		}
+
+		console.log(userInfo)
+		res.json({ result: 'success', userInfo })
+	} catch (err) {
+		// Catch error
+		// console.log(err)
+		res.json({ result: false, message: err.message })
+	}
+}
+
 exports.favorites = async (req, res, next) => {
 	try {
-		var userToken = await User.findOne({ token: req.params.token })
-		var favorites = userToken // testing
-		// bout de code utile sur des clés etrangères
-		// var favorites = await User.
-		//     findById(userToken)
-		//     .populate('favorites')
-		console.log(userToken)
-		res.json({ result: 'success', favorites: favorites })
+		var favorites = await User.findOne({ token: req.params.token })
+			.populate('favorites')
+			.exec()
 
-		res.json({ result: 'success', favorites: favorites })
+		// console.log(favorites.favorites)
+
+		res.json({ result: 'success', favorites: favorites.favorites })
 	} catch (err) {
 		// Catch error
 		// console.log(err)
@@ -135,16 +166,13 @@ exports.favorites = async (req, res, next) => {
 
 exports.favoritesAdd = async (req, res, next) => {
 	try {
-		console.log('coucou', req.body)
 		var addFavorite = await User.updateOne(
 			{ token: req.body.token },
 			{ $push: { favorites: req.body.meal_id } }
 		)
 
-		res.json({ result: 'success' })
+		res.json({ result: 'success', modified: addFavorite.modifiedCount })
 	} catch (err) {
-		// Catch error
-		// console.log(err)
 		res.json({ result: false, message: err.message })
 	}
 }
@@ -169,12 +197,12 @@ exports.favoritesDel = async (req, res, next) => {
 
 exports.updateUser = async (req, res, next) => {
 	try {
-		const { diet, dont } = req.body
+		const { diet, dont, allergies } = req.body
 		console.log(dont)
 
 		const doc = await User.findOneAndUpdate(
 			{ token: req.params.token },
-			{ regimeAlim: diet, dont: dont },
+			{ regimeAlim: diet, dont: dont, allergies: allergies },
 			{ new: true }
 		)
 		if (!doc) {
