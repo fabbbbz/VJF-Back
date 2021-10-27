@@ -1,5 +1,7 @@
 const uid2 = require('uid2')
 const User = require('../models/Users')
+const mealsModel = require('../models/Meals')
+
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const validateEmail = require('../functions/validateEmails') //import function to check emails
@@ -112,18 +114,46 @@ exports.signIn = async (req, res, next) => {
     }
 }
 
+exports.me = async (req, res, next) => {
+    try {
+
+        var user = await User.findOne({ token: req.params.token })
+
+
+        var userInfo = {
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            phone: user.phone,
+            token: user.token,
+            adresse: user.adresse,
+            allergies: user.allergies,
+            dont: user.dont,
+            orders: user.orders,
+            favorites: user.favorites,
+            regimeAlim: user.regimeAlim
+
+        }
+
+        console.log(userInfo)
+        res.json({ result: 'success', userInfo })
+    } catch (err) {
+        // Catch error
+        // console.log(err)
+        res.json({ result: false, message: err.message })
+    }
+}
+
+
 exports.favorites = async (req, res, next) => {
     try {
-        var userToken = await User.findOne({ token: req.params.token })
-        var favorites = userToken // testing
-        // bout de code utile sur des clés etrangères 
-        // var favorites = await User.
-        //     findById(userToken)
-        //     .populate('favorites')
-        console.log(userToken)
-        res.json({ result: 'success', favorites: favorites })
 
-        res.json({ result: 'success', favorites: favorites })
+
+        var favorites = await User.findOne({ token: req.params.token }).populate('favorites').exec()
+
+        // console.log(favorites.favorites)
+
+        res.json({ result: 'success', favorites: favorites.favorites })
     } catch (err) {
         // Catch error
         // console.log(err)
@@ -152,9 +182,7 @@ exports.favoritesDel = async (req, res, next) => {
             { $pull: { favorites: req.params.meal_id } }
         )
 
-        var favorites = await User.findOne({ token: req.params.token }).populate(
-            'favorites'
-        )
+        var favorites = await User.findOne({ token: req.params.token }).populate('favorites')
         res.json({ result: 'success', favorites: favorites })
     } catch (err) {
         // Catch error

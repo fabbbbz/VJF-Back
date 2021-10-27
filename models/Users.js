@@ -13,10 +13,10 @@ var userSchema = mongoose.Schema({
     allergies: [{ type: String }],
     regimeAlim: String,
     dont: [{ type: String }],
-    orders: [{ type: String }],
-    favorites: [{ type: String }],
-    // orders: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Orders' }],
-    // favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Meals' }]
+    // orders: [{ type: String }], // //testing purposes 
+    // favorites: [{ type: String }],// //testing purposes 
+    orders: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Orders' }],
+    favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Meals' }]
 });
 
 var User = mongoose.model('Users', userSchema);
