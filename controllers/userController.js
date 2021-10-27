@@ -1,11 +1,8 @@
 const uid2 = require('uid2')
 const User = require('../models/Users')
-<<<<<<< HEAD
 const Order = require('../models/Orders')
-=======
 const mealsModel = require('../models/Meals')
 
->>>>>>> 6752d2c7df04010ab846deef03bda75ad2050fd8
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const validateEmail = require('../functions/validateEmails') //import function to check emails
