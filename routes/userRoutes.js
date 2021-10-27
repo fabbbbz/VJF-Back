@@ -7,6 +7,7 @@ const {
 	favoritesAdd,
 	favoritesDel,
 	updateUser,
+	history,
 } = require('../controllers/userController')
 
 //Route for Sign-Up
@@ -17,5 +18,7 @@ router.get('/favorites/:token', favorites)
 router.post('/favorites', favoritesAdd)
 router.delete('/favorites/:token/:meal_id', favoritesDel)
 router.put('/update-me/:token', updateUser)
+
+router.get('/history/:token', history)
 
 module.exports = router

@@ -9,6 +9,6 @@ var OrdersSchema = mongoose.Schema({
 
 });
 
-var OrdersModel = mongoose.model('Orders', OrdersSchema);
+var Order = mongoose.model('Orders', OrdersSchema);
 
-module.exports = OrdersModel;
+module.exports = Order;

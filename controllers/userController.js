@@ -1,8 +1,10 @@
 const uid2 = require('uid2')
 const User = require('../models/Users')
+const Order = require('../models/Orders')
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const validateEmail = require('../functions/validateEmails') //import function to check emails
+
 
 exports.signUp = async (req, res, next) => {
 	let result = false
@@ -179,6 +181,22 @@ exports.updateUser = async (req, res, next) => {
 			throw new Error("User could'n be updated")
 		}
 		res.json({ result: 'success', doc })
+	} catch (err) {
+		res.json({ result: false, message: err.message })
+	}
+}
+
+exports.history = async (req, res, next) => {
+	try {
+		var user = await User.findOne({ token: req.params.token })
+		console.log(req.params)
+
+
+		var orders = await Order.find({ client: user._id }).populate('meals')
+		res.json({ result: true, meals: meals })
+		console.log(orders)
+
+
 	} catch (err) {
 		res.json({ result: false, message: err.message })
 	}
