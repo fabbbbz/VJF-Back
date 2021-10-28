@@ -36,16 +36,31 @@ exports.makeOrder = async (req, res, next) => {
 						'a partager',
 				  ]
 
+		// HARD CODED COORDINATES
+		const lng = 48.887482
+		const lat = 2.303685
+		const maxDistance = 2
+		const radius = maxDistance / 6378.1 // radians (unit needed to use $centerSphere)
+
 		// find all the meals that fit the user profile
 		const meals = await Meal.find({
 			regimAlim: { $in: user.regimAlim },
 			mood: { $in: mood },
 			price: { $gte: req.body.minprice, $lte: req.body.maxprice },
 			ingredients: { $nin: nogo },
+		}).populate({
+			path: 'restaurants',
+			match: {
+				location: { $geoWithin: { $centerSphere: [[lng, lat], radius] } },
+			},
 		})
 
+		// Filter to keep only the meals who got their restaurant populated
+		const nearbyMeals = meals.filter(meal => meal.restaurants !== null)
+
 		// select one random meal among the returned meals
-		const selectedMeal = meals[Math.floor(Math.random() * meals.length)]
+		const selectedMeal =
+			nearbyMeals[Math.floor(Math.random() * nearbyMeals.length)]
 
 		// handle case when no meal fits all the criteria
 		if (!selectedMeal) {

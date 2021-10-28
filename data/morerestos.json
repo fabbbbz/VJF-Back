@@ -1,0 +1,54 @@
+[
+	{
+		"name": "Mama Mia Lets-a-go",
+		"meals": ["617aa7368b741bd15b9e9c48", "617aa7368b741bd15b9e9c4b"],
+		"location": {
+			"type": "Point",
+			"coordinates": [48.887124, 2.304413]
+		}
+	},
+	{
+		"name": "Fromage Kipu",
+		"meals": ["617aa7368b741bd15b9e9c4a"],
+		"location": {
+			"type": "Point",
+			"coordinates": [48.886152, 2.309922]
+		}
+	},
+	{
+		"name": "Mamie et sa popotte",
+		"meals": [
+			"6179138b8b741bd15b9e9bad",
+			"6179138b8b741bd15b9e9bb0",
+			"6179138b8b741bd15b9e9bac"
+		],
+		"location": {
+			"type": "Point",
+			"coordinates": [48.880647, 2.310557]
+		}
+	},
+	{
+		"name": "Nihongo wakaranai",
+		"meals": ["6179138b8b741bd15b9e9bae"],
+		"location": {
+			"type": "Point",
+			"coordinates": [48.867936, 2.29993]
+		}
+	},
+	{
+		"name": "Du sucre et du gras",
+		"meals": ["617aa7368b741bd15b9e9c48", "617aa7368b741bd15b9e9c49"],
+		"location": {
+			"type": "Point",
+			"coordinates": [48.873722, 2.337203]
+		}
+	},
+	{
+		"name": "Chez Wawa - Resto Vincennois",
+		"meals": ["617aa7368b741bd15b9e9c48", "617aa7368b741bd15b9e9c49"],
+		"location": {
+			"type": "Point",
+			"coordinates": [48.848318, 2.441235]
+		}
+	}
+]
