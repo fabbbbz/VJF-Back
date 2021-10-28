@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const User = require('../models/Users')
 const Order = require('../models/Orders')
 const Meal = require('../models/Meals')
+const Restaurant = require('../models/Restaurants')
 
 exports.makeOrder = async (req, res, next) => {
 	try {
@@ -78,9 +79,24 @@ exports.getOrder = async (req, res, next) => {
 	try {
 		const user = await User.findOne({ token: req.params.token })
 		const currentOrder = user.orders[user.orders.length - 1] // get the last order pushed
-		const orderDetails = await Order.findById(currentOrder)
+		const orderDetails = await Order.findById(currentOrder).populate({
+			path: 'meals',
+			populate: {
+				path: 'restaurants',
+			},
+		})
 		console.log('get my order')
-		res.json({ result: 'success', orderPrice: orderDetails.price })
+		console.log(orderDetails)
+		console.log('//////')
+		console.log('restaurant:', orderDetails.meals[0].restaurants)
+		if (orderDetails) {
+			res.json({
+				result: 'success',
+				orderPrice: orderDetails.price,
+				mealName: orderDetails.meals[0].name,
+				restaurant: orderDetails.meals[0].restaurants.name,
+			})
+		}
 	} catch (err) {
 		res.json({ result: 'fail', err: err.message })
 	}
