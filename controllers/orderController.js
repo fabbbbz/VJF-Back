@@ -73,3 +73,16 @@ exports.getOrder = async (req, res, next) => {
 		res.json({ result: 'fail', err: err.message })
 	}
 }
+
+exports.updateOrder = async (req, res, next) => {
+	try {
+		const order = await Order.findByIdAndUpdate(
+			req.params.id,
+			{ status: 'paid' },
+			{ new: true }
+		)
+		res.json({ result: 'success', order })
+	} catch (err) {
+		res.json({ result: 'fail', err: err.message })
+	}
+}
