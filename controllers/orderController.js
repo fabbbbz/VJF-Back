@@ -5,15 +5,42 @@ const Meal = require('../models/Meals')
 
 exports.makeOrder = async (req, res, next) => {
 	try {
-		console.log(req.body)
+		// Make sure we have the data from the front
+		if (!req.body.mood || !req.body.minprice) {
+			res.json({ result: 'fail', message: 'Mood or Budget missing' })
+			return
+		}
+		// Get the current user
 		const user = await User.findOne({ token: req.params.token })
+		if (!user) {
+			res.json({
+				result: 'fail',
+				message: 'Token not found. Cant find the user',
+			})
+			return
+		}
+
+		// make one array with his donts and allergies to compare with the meals ingredients
+		const nogo = user.dont.concat(user.allergies)
+
+		// find all the meals that fit the user profile
 		const meals = await Meal.find({
 			regimAlim: { $in: user.regimAlim },
 			mood: { $in: req.body.mood },
 			price: { $gte: req.body.minprice, $lte: req.body.maxprice },
+			ingredients: { $nin: nogo },
 		})
+
+		// select one random meal among the returned meals
 		const selectedMeal = meals[Math.floor(Math.random() * meals.length)]
 
+		// handle case when no meal fits all the criteria
+		if (!selectedMeal) {
+			res.json({ result: 'success', message: 'no meal fits' })
+			return
+		}
+
+		// add a new order to the Order collection
 		const order = await Order.create({
 			client: user._id,
 			meals: selectedMeal._id,
@@ -22,13 +49,13 @@ exports.makeOrder = async (req, res, next) => {
 			status: 'pending',
 		})
 
-		// Update the user orders
+		// Update the User orders
 		const updatedUser = await User.findByIdAndUpdate(
 			user._id,
 			{ $push: { orders: order._id } },
 			{ new: true }
 		)
-
+		// Send to front
 		res.json({ result: 'success', selectedMeal, order, updatedUser })
 	} catch (err) {
 		res.json({ result: 'fail', err: err.message })
