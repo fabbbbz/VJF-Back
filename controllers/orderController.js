@@ -40,7 +40,7 @@ exports.makeOrder = async (req, res, next) => {
 		const lng = 48.887482
 		const lat = 2.303685
 		const maxDistance = 2
-		const radius = maxDistance / 6378.1 // radians (unit needed to use $centerSphere)
+		const radius = maxDistance / 6378.1 // radians (unit needed to use $centerSphere, dont ask!)
 
 		// find all the meals that fit the user profile
 		const meals = await Meal.find({
