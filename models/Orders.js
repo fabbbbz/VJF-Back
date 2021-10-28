@@ -9,5 +9,4 @@ var OrdersSchema = mongoose.Schema({
 })
 
 var Order = mongoose.model('Orders', OrdersSchema);
-
 module.exports = Order;

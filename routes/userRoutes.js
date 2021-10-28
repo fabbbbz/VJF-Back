@@ -19,8 +19,6 @@ router.get('/favorites/:token', favorites)
 router.post('/favorites', favoritesAdd)
 router.delete('/favorites/:token/:meal_id', favoritesDel)
 router.put('/update-me/:token', updateUser)
-
 router.get('/history/:token', history)
-
 router.get('/me/:token', getUserInfo)
 module.exports = router
