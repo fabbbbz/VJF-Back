@@ -23,10 +23,22 @@ exports.makeOrder = async (req, res, next) => {
 		// make one array with his donts and allergies to compare with the meals ingredients
 		const nogo = user.dont.concat(user.allergies)
 
+		// handle full random mood
+		const mood =
+			req.body.mood !== 'all'
+				? req.body.mood
+				: [
+						'healthy',
+						'soir de match',
+						'comme chez maman',
+						'cuisine du monde',
+						'a partager',
+				  ]
+
 		// find all the meals that fit the user profile
 		const meals = await Meal.find({
 			regimAlim: { $in: user.regimAlim },
-			mood: { $in: req.body.mood },
+			mood: { $in: mood },
 			price: { $gte: req.body.minprice, $lte: req.body.maxprice },
 			ingredients: { $nin: nogo },
 		})
