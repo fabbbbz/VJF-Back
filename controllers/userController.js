@@ -214,12 +214,12 @@ exports.updateUser = async (req, res, next) => {
 exports.history = async (req, res, next) => {
 	try {
 		var user = await User.findOne({ token: req.params.token })
-		console.log(req.params)
+		console.log('req.params', req.params)
 
 
 		var orders = await Order.find({ client: user._id }).populate('meals')
-		res.json({ result: true, meals: meals })
-		console.log(orders)
+		res.json({ result: true, user, orders })
+		console.log('orders', orders)
 
 
 	} catch (err) {
