@@ -1,14 +1,18 @@
-var mongoose = require('mongoose');
-
+var mongoose = require('mongoose')
 
 var restaurantsSchema = mongoose.Schema({
+	name: String,
+	location: {
+		type: {
+			type: String,
+			default: 'Point',
+			enum: ['Point'],
+		},
+		coordinates: [Number],
+	},
+	meals: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Meals' }],
+})
 
-    name: String,
-    lat: Number,
-    lon: Number,
-    meals: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Meals' }],
-});
+var Restaurant = mongoose.model('Restaurant', restaurantsSchema)
 
-var restaurantsModel = mongoose.model('Restaurants', restaurantsSchema);
-
-module.exports = restaurantsModel;
+module.exports = Restaurant

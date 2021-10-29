@@ -4,48 +4,55 @@
 		"price": 12,
 		"ingredients": ["salade", "poulet", "fromage", "creme", "crouton"],
 		"regimeAlim": ["omni"],
-		"mood": ["healthy"]
+		"mood": ["healthy"],
+		"restaurants": "617aa6838b741bd15b9e9c41"
 	},
 	{
 		"name": "Risotto aux champignons",
 		"price": 15,
 		"ingredients": ["riz", "fromage", "champignons"],
 		"regimeAlim": ["omni", "vegetarian", "halal", "cacher"],
-		"mood": ["healthy", "comme chez maman"]
+		"mood": ["healthy", "comme chez maman"],
+		"restaurants": "617aa6838b741bd15b9e9c41"
 	},
 	{
 		"name": "Plateau de sushis",
 		"price": 18,
 		"ingredients": ["poisson", "riz", "soja"],
 		"regimeAlim": ["omni", "halal", "cacher"],
-		"mood": ["a partager", "soir de match", "cuisine du monde"]
+		"mood": ["a partager", "soir de match", "cuisine du monde"],
+		"restaurants": "617aa6838b741bd15b9e9c42"
 	},
 	{
 		"name": "Pizza 4 fromages",
 		"price": 11,
 		"ingredients": ["pain", "fromage", "gorgonzola", "creme", "mozzarella"],
 		"regimeAlim": ["omni", "vegetarian", "halal", "cacher"],
-		"mood": ["soir de match"]
+		"mood": ["soir de match"],
+		"restaurants": "617aa6838b741bd15b9e9c3f"
 	},
 	{
 		"name": "Burger Vegan",
 		"price": 15,
 		"ingredients": ["pain", "soja", "salade", "tomate", "graines"],
 		"regimeAlim": ["vegan"],
-		"mood": ["soir de match"]
+		"mood": ["soir de match"],
+		"restaurants": "617aa6838b741bd15b9e9c41"
 	},
 	{
 		"name": "Plateau de fromage",
 		"price": 16,
 		"ingredients": ["fromage", "gorgonzola", "camembert", "comte", "brie"],
 		"regimeAlim": ["omni", "vegetarian", "halal", "cacher"],
-		"mood": ["a partager"]
+		"mood": ["a partager"],
+		"restaurants": "617aa6838b741bd15b9e9c40"
 	},
 	{
 		"name": "Salade de pates",
 		"price": 9,
 		"ingredients": ["pates", "tomate", "salade"],
 		"regimeAlim": ["omni", "vegetarian", "halal", "cacher", "vegan"],
-		"mood": ["healthy"]
+		"mood": ["healthy"],
+		"restaurants": "617aa6838b741bd15b9e9c41"
 	}
 ]
