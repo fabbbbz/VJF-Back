@@ -2,8 +2,14 @@ var mongoose = require('mongoose')
 
 var restaurantsSchema = mongoose.Schema({
 	name: String,
-	lat: Number,
-	lon: Number,
+	location: {
+		type: {
+			type: String,
+			default: 'Point',
+			enum: ['Point'],
+		},
+		coordinates: [Number],
+	},
 	meals: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Meals' }],
 })
 
