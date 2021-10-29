@@ -29,12 +29,12 @@ exports.makeOrder = async (req, res, next) => {
 			req.body.mood !== 'all'
 				? req.body.mood
 				: [
-						'healthy',
-						'soir de match',
-						'comme chez maman',
-						'cuisine du monde',
-						'a partager',
-				  ]
+					'healthy',
+					'soir de match',
+					'comme chez maman',
+					'cuisine du monde',
+					'a partager',
+				]
 
 		// HARD CODED COORDINATES
 		const lng = 48.887482
@@ -100,10 +100,10 @@ exports.getOrder = async (req, res, next) => {
 				path: 'restaurants',
 			},
 		})
-		console.log('get my order')
-		console.log(orderDetails)
-		console.log('//////')
-		console.log('restaurant:', orderDetails.meals[0].restaurants)
+		// console.log('get my order')
+		// console.log(orderDetails)
+		// console.log('//////')
+		// console.log('restaurant:', orderDetails.meals[0].restaurants)
 		if (orderDetails) {
 			res.json({
 				result: 'success',
