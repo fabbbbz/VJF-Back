@@ -23,5 +23,5 @@ router.put('/update-me/:token', updateUser)
 router.get('/me/:token', getUserInfo)
 router.get('/history/:token', history)
 router.get('/allergies/:token/', getAllergies)
-router.get('/delallergies/:token/:allergy', delAllergies)
+router.delete('/delallergies/:token/:allergy', delAllergies)
 module.exports = router
