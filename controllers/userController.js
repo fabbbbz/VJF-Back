@@ -61,17 +61,13 @@ exports.signUp = async (req, res, next) => {
 		if (saveUser) {
 			result = true
 			token = saveUser.token
-			// // Send email
-			// try {
-			// 	const message = `Bonjour à toi jeune aventurier du goût ! Nous sommes ravis que tu aies choisi Vite J'ai Faim. Bon appétit ${saveUser.firstName}`
-			// 	await sendEmail({
-			// 		email: saveUser.email,
-			// 		subject: 'Bienvenue chez VJF!',
-			// 		message,
-			// 	})
-			// } catch (err) {
-			// 	next(new Error('There was an error sending the confirmation email'))
-			// }
+			// Send email
+			const message = `Bonjour à toi jeune aventurier du goût ! Nous sommes ravis que tu aies choisi Vite J'ai Faim. Bon appétit ${saveUser.firstName}`
+			await sendEmail({
+				email: saveUser.email,
+				subject: 'Bienvenue chez VJF!',
+				message,
+			})
 		}
 		// Response Object
 		res.json({ result, saveUser, token })
