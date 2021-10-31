@@ -243,18 +243,21 @@ exports.getAllergies = async (req, res, next) => {
 }
 
 exports.delAllergies = async (req, res, next) => {
+    console.log("test routes delAllergies")
     try {
         var allergies = await User.findOne({ token: req.params.token }).populate('allergies').exec()
         console.log("allergies in back", allergies)
-        allergies = allergies.filter(element => element !== allergy)
+        allergyList = allergies.allergies
+        allergies = allergyList.filter(element => element !== req.params.allergy)
 
         var delAllergies = await User.updateOne(
             { token: req.params.token },
             { allergies: allergies }
         )
-
+        console.log(req.params.allergy)
         var newAllergies = await User.findOne({ token: req.params.token }).populate(
             'allergies')
+
         res.json({ result: 'success', allergies: newAllergies })
     } catch (err) {
         // Catch error
