@@ -5,7 +5,7 @@ dotenv.config({ path: './config.env' })
 
 const sendEmail = async options => {
 	const transporter = nodemailer.createTransport({
-		host: smtp.mailtrap.io, // REPLACE BY process.env.EMAIL_HOST
+		host: 'smtp.mailtrap.io', // REPLACE BY process.env.EMAIL_HOST
 		port: 2525, // process.env.EMAIL_PORT
 		auth: {
 			user: 'ceb9a5dc362475', // EMAIL_USERNAME
