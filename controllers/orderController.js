@@ -14,6 +14,7 @@ exports.makeOrder = async (req, res, next) => {
 		// Get the current user
 		const user = await User.findOne({ token: req.params.token })
 		if (!user) {
+			res.statusCode = 400
 			res.json({
 				result: 'fail',
 				message: 'Token not found. Cant find the user',
@@ -29,12 +30,12 @@ exports.makeOrder = async (req, res, next) => {
 			req.body.mood !== 'all'
 				? req.body.mood
 				: [
-						'healthy',
-						'soir de match',
-						'comme chez maman',
-						'cuisine du monde',
-						'a partager',
-				  ]
+					'healthy',
+					'soir de match',
+					'comme chez maman',
+					'cuisine du monde',
+					'a partager',
+				]
 
 		// HARD CODED COORDINATES
 		const lng = 48.887482
@@ -86,6 +87,7 @@ exports.makeOrder = async (req, res, next) => {
 		// Send to front
 		res.json({ result: 'success', selectedMeal, order, updatedUser })
 	} catch (err) {
+		res.statusCode = 400
 		res.json({ result: 'fail', err: err.message })
 	}
 }
@@ -100,10 +102,6 @@ exports.getOrder = async (req, res, next) => {
 				path: 'restaurants',
 			},
 		})
-		console.log('get my order')
-		console.log(orderDetails)
-		console.log('//////')
-		console.log('restaurant:', orderDetails.meals[0].restaurants)
 		if (orderDetails) {
 			res.json({
 				result: 'success',
@@ -113,6 +111,7 @@ exports.getOrder = async (req, res, next) => {
 			})
 		}
 	} catch (err) {
+		res.statusCode = 400
 		res.json({ result: 'fail', err: err.message })
 	}
 }
@@ -126,6 +125,7 @@ exports.updateOrder = async (req, res, next) => {
 		)
 		res.json({ result: 'success', order })
 	} catch (err) {
+		res.statusCode = 400
 		res.json({ result: 'fail', err: err.message })
 	}
 }
