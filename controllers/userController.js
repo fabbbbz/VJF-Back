@@ -6,7 +6,7 @@ const mealsModel = require('../models/Meals')
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const validateEmail = require('../functions/validateEmails') //import function to check emails
-
+const sendEmail = require('../functions/sendEmail')
 
 exports.signUp = async (req, res, next) => {
 	let result = false
@@ -20,7 +20,7 @@ exports.signUp = async (req, res, next) => {
 		let user = await User.findOne({ email: req.body.emailFromFront })
 		if (user) {
 			// if exist add error in catch
-			throw Error('That user already exisits')
+			throw Error('That user already exists')
 		}
 		// Check if fields is correctly filled
 		if (
@@ -61,6 +61,17 @@ exports.signUp = async (req, res, next) => {
 		if (saveUser) {
 			result = true
 			token = saveUser.token
+			// Send email
+			try {
+				const message = `Bonjour à toi jeune aventurier du goût ! Nous sommes ravis que tu aies choisi Vite J'ai Faim. Bon appétit ${saveUser.firstName}`
+				await sendEmail({
+					email: saveUser.email,
+					subject: 'Bienvenue chez VJF!',
+					message,
+				})
+			} catch (err) {
+				next(new Error('There was an error sending the confirmation email'))
+			}
 		}
 		// Response Object
 		res.json({ result, saveUser, token })
@@ -147,8 +158,9 @@ exports.getUserInfo = async (req, res, next) => {
 
 exports.favorites = async (req, res, next) => {
 	try {
-		var favorites = await User.findOne({ token: req.params.token }).populate('favorites').exec()
-
+		var favorites = await User.findOne({ token: req.params.token })
+			.populate('favorites')
+			.exec()
 
 		res.json({ result: 'success', favorites: favorites.favorites })
 	} catch (err) {
@@ -221,17 +233,17 @@ exports.history = async (req, res, next) => {
 			return { mealName: order.meals[0].name, date: order.date }
 		})
 		res.json({ result: true, meals: meals })
-
 	} catch (err) {
 		res.statusCode = 400
 		res.json({ result: false, message: err.message })
 	}
 }
 
-
 exports.getAllergies = async (req, res, next) => {
 	try {
-		var allergies = await User.findOne({ token: req.params.token }).populate('allergies').exec()
+		var allergies = await User.findOne({ token: req.params.token })
+			.populate('allergies')
+			.exec()
 		res.json({ result: 'success', allergies: allergies.allergies })
 	} catch (err) {
 		res.statusCode = 400
@@ -241,10 +253,12 @@ exports.getAllergies = async (req, res, next) => {
 }
 
 exports.delAllergies = async (req, res, next) => {
-	console.log("test routes delAllergies")
+	console.log('test routes delAllergies')
 	try {
-		var allergies = await User.findOne({ token: req.params.token }).populate('allergies').exec()
-		console.log("allergies in back", allergies)
+		var allergies = await User.findOne({ token: req.params.token })
+			.populate('allergies')
+			.exec()
+		console.log('allergies in back', allergies)
 		allergyList = allergies.allergies
 		allergies = allergyList.filter(element => element !== req.params.allergy)
 
@@ -254,7 +268,8 @@ exports.delAllergies = async (req, res, next) => {
 		)
 		console.log(req.params.allergy)
 		var newAllergies = await User.findOne({ token: req.params.token }).populate(
-			'allergies')
+			'allergies'
+		)
 
 		res.json({ result: 'success', allergies: newAllergies })
 	} catch (err) {
