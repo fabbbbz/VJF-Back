@@ -30,12 +30,12 @@ exports.makeOrder = async (req, res, next) => {
 			req.body.mood !== 'all'
 				? req.body.mood
 				: [
-						'healthy',
-						'soir de match',
-						'comme chez maman',
-						'cuisine du monde',
-						'a partager',
-				  ]
+					'healthy',
+					'soir de match',
+					'comme chez maman',
+					'cuisine du monde',
+					'a partager',
+				]
 
 		// HARD CODED COORDINATES
 		const lng = 48.887482

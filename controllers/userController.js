@@ -228,7 +228,7 @@ exports.history = async (req, res, next) => {
 		var orders = await Order.find({ client: user._id }).populate('meals')
 
 		var meals = orders.map((order, i) => {
-			return { mealName: order.meals[0].name, date: order.date }
+			return { mealName: order.meals[0].name, date: order.date, mealId: order.meals[0]._id }
 		})
 		res.json({ result: true, meals: meals })
 	} catch (err) {
@@ -273,6 +273,21 @@ exports.delAllergies = async (req, res, next) => {
 	} catch (err) {
 		// Catch error
 		res.statusCode = 400
+		res.json({ result: false, message: err.message })
+	}
+}
+
+exports.donts = async (req, res, next) => {
+	try {
+		var donts = await User.findOne({ token: req.params.token })
+			.populate('dont')
+			.exec()
+
+		console.log('dont', donts.dont)
+
+		res.json({ result: true, donts: donts.dont })
+
+	} catch (err) {
 		res.json({ result: false, message: err.message })
 	}
 }
