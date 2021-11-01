@@ -167,15 +167,29 @@ exports.favorites = async (req, res, next) => {
 }
 
 exports.favoritesAdd = async (req, res, next) => {
-	console.log(req.body.token)
-	console.log(req.body.meal_id)
-	try {
-		var addFavorite = await User.updateOne(
-			{ token: req.body.token },
-			{ $push: { favorites: req.body.meal_id } }
-		)
 
-		res.json({ result: 'success', newfavorites: addFavorite.favorites })
+	try {
+		var favList = await User.findOne({ token: req.body.token })
+			.populate('favorites')
+			.exec()
+		var favList = favList.favorites
+		var doublon
+
+
+		for (var i = 0; i < favList.length; i++) {
+
+			if (req.body.meal_id == favList[i]._id) {
+				doublon = true
+			}
+		}
+
+		if (doublon != true) {
+			var addFavorite = await User.updateOne(
+				{ token: req.body.token },
+				{ $push: { favorites: req.body.meal_id } }
+			)
+		}
+		res.json({ result: 'success' })
 	} catch (err) {
 		res.statusCode = 400
 		res.json({ result: false, message: err.message })
