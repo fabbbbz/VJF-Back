@@ -33,12 +33,12 @@ exports.makeOrder = async (req, res, next) => {
 			req.body.mood !== 'all'
 				? req.body.mood
 				: [
-					'healthy',
-					'soir de match',
-					'comme chez maman',
-					'cuisine du monde',
-					'a partager',
-				]
+						'healthy',
+						'soir de match',
+						'comme chez maman',
+						'cuisine du monde',
+						'a partager',
+				  ]
 
 		const lng = req.body.coords.lat
 		const lat = req.body.coords.lng
@@ -76,6 +76,7 @@ exports.makeOrder = async (req, res, next) => {
 			client: user._id,
 			meals: selectedMeal._id,
 			price: selectedMeal.price,
+			quantity: req.body.quantity,
 			date: Date.now(),
 			status: 'pending',
 		})
