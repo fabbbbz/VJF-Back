@@ -112,6 +112,7 @@ exports.getOrder = async (req, res, next) => {
 				mealName: orderDetails.meals[0].name,
 				restaurant: orderDetails.meals[0].restaurants.name,
 				mealId: orderDetails.meals[0]._id,
+				nbPortions: orderDetails.quantity,
 			})
 		}
 	} catch (err) {
