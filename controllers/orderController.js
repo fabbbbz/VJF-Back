@@ -4,6 +4,9 @@ const Order = require('../models/Orders')
 const Meal = require('../models/Meals')
 const Restaurant = require('../models/Restaurants')
 
+// Distance max de livraison, en km
+const MAX_DISTANCE = 3
+
 exports.makeOrder = async (req, res, next) => {
 	try {
 		// Make sure we have the data from the front
@@ -37,10 +40,9 @@ exports.makeOrder = async (req, res, next) => {
 						'a partager',
 				  ]
 
-		// HARD CODED COORDINATES
-		const lng = 48.887482
-		const lat = 2.303685
-		const maxDistance = 2
+		const lng = req.body.coords.lat
+		const lat = req.body.coords.lng
+		const maxDistance = MAX_DISTANCE
 		const radius = maxDistance / 6378.1 // radians (unit needed to use $centerSphere, dont ask!)
 
 		// find all the meals that fit the user profile
