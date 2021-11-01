@@ -167,13 +167,15 @@ exports.favorites = async (req, res, next) => {
 }
 
 exports.favoritesAdd = async (req, res, next) => {
+	console.log(req.body.token)
+	console.log(req.body.meal_id)
 	try {
 		var addFavorite = await User.updateOne(
 			{ token: req.body.token },
 			{ $push: { favorites: req.body.meal_id } }
 		)
 
-		res.json({ result: 'success', modified: addFavorite.modifiedCount })
+		res.json({ result: 'success', newfavorites: addFavorite.favorites })
 	} catch (err) {
 		res.statusCode = 400
 		res.json({ result: false, message: err.message })
