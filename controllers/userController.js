@@ -217,13 +217,16 @@ exports.favoritesDel = async (req, res, next) => {
 exports.updateUser = async (req, res, next) => {
 	try {
 		const { diet, dont, allergies } = req.body
-		console.log(dont)
+
+		console.log(req.body);
+		var tab = [...dont]
 
 		const doc = await User.findOneAndUpdate(
 			{ token: req.params.token },
-			{ regimeAlim: diet, dont: dont, allergies: allergies },
+			{ regimeAlim: diet, dont: tab, allergies: allergies },
 			{ new: true }
 		)
+		console.log("doc=>", doc);
 		if (!doc) {
 			throw new Error("User could'n be updated")
 		}
@@ -297,9 +300,51 @@ exports.donts = async (req, res, next) => {
 			.populate('dont')
 			.exec()
 
-		console.log('dont', donts.dont)
+		console.log('donts =>', donts.dont)
 
 		res.json({ result: true, donts: donts.dont })
+
+	} catch (err) {
+		res.json({ result: false, message: err.message })
+	}
+}
+
+exports.adddonts = async (req, res, next) => {
+	try {
+		var adddonts = await User.findOne({ token: req.params.token })
+			.populate('dont')
+			.exec()
+
+		const updateDonts = await User.findOneAndUpdate(
+			{ token: req.params.token },
+			{ $push: { dont: req.body.dont } },
+			{ new: true })
+
+		console.log("adddonts", adddonts.dont)
+
+		res.json({ result: true, donts: updateDonts })
+
+	} catch (err) {
+		res.json({ result: false, message: err.message })
+	}
+}
+
+
+exports.deletedonts = async (req, res, next) => {
+	try {
+		// var dontToDelete = await User.findOne({ token: req.params.token })
+		// 	.populate('dont')
+		// 	.exec()
+
+		console.log('deletedonts', req.body.dont)
+
+		const updateDonts = await User.findOneAndUpdate(
+			{ token: req.params.token },
+			{ $pull: { dont: req.params.dont } },
+			{ new: true },
+		)
+
+		res.json({ result: true, donts: updateDonts.dont })
 
 	} catch (err) {
 		res.json({ result: false, message: err.message })

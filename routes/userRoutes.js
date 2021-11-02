@@ -12,6 +12,9 @@ const {
 	getAllergies,
 	delAllergies,
 	donts,
+	adddonts,
+	deletedonts
+
 } = require('../controllers/userController')
 
 //Route for Sign-Up
@@ -28,4 +31,6 @@ router.get('/history/:token', history)
 router.get('/allergies/:token/', getAllergies)
 router.delete('/delallergies/:token/:allergy', delAllergies)
 router.get('/myDonts/:token', donts)
+router.post('/adddonts/:token', adddonts)
+router.delete('/deletedonts/:token/:dont', deletedonts)
 module.exports = router
