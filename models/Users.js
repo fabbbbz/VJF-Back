@@ -20,6 +20,7 @@ var userSchema = mongoose.Schema({
 			values: ['omni', 'vegetarian', 'vegan', 'halal', 'cacher'],
 			message: 'Not a valid diet',
 		},
+		default: 'omni',
 	},
 	dont: [{ type: String }],
 	orders: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Orders' }],
