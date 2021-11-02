@@ -51,6 +51,7 @@ exports.makeOrder = async (req, res, next) => {
 			mood: { $in: mood },
 			price: { $gte: req.body.minprice, $lte: req.body.maxprice },
 			ingredients: { $nin: nogo },
+			_id: { $nin: user.blacklist },
 		}).populate({
 			path: 'restaurants',
 			match: {
