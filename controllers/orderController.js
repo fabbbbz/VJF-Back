@@ -33,12 +33,12 @@ exports.makeOrder = async (req, res, next) => {
 			req.body.mood !== 'all'
 				? req.body.mood
 				: [
-					'healthy',
-					'soir de match',
-					'comme chez maman',
-					'cuisine du monde',
-					'a partager',
-				]
+						'healthy',
+						'soir de match',
+						'comme chez maman',
+						'cuisine du monde',
+						'a partager',
+				  ]
 
 		const lng = req.body.coords.lat
 		const lat = req.body.coords.lng
@@ -47,7 +47,7 @@ exports.makeOrder = async (req, res, next) => {
 
 		// find all the meals that fit the user profile
 		const meals = await Meal.find({
-			regimAlim: { $in: user.regimAlim },
+			regimeAlim: { $in: user.regimAlim },
 			mood: { $in: mood },
 			price: { $gte: req.body.minprice, $lte: req.body.maxprice },
 			ingredients: { $nin: nogo },
@@ -143,10 +143,9 @@ exports.updateOrder = async (req, res, next) => {
 	}
 }
 
-// Make order only in favorites 
+// Make order only in favorites
 exports.makeOrderInFav = async (req, res, next) => {
 	try {
-
 		// Get the current user
 		const user = await User.findOne({ token: req.params.token })
 		if (!user) {
@@ -159,17 +158,19 @@ exports.makeOrderInFav = async (req, res, next) => {
 
 		const meals = await user.populate('favorites')
 
-		// Get meals from favorites 
+		// Get meals from favorites
 
 		const test = meals.favorites
 		// select one random meal among the returned meals
-		const selectedMeal =
-			test[Math.floor(Math.random() * test.length)]
+		const selectedMeal = test[Math.floor(Math.random() * test.length)]
 		console.log('this is the favorites' + selectedMeal)
 
 		// handle case when no meal fits all the criteria
 		if (!selectedMeal) {
-			res.json({ result: 'error', message: 'impossible to random in favorites' })
+			res.json({
+				result: 'error',
+				message: 'impossible to random in favorites',
+			})
 			return
 		}
 
@@ -191,7 +192,6 @@ exports.makeOrderInFav = async (req, res, next) => {
 		)
 		// Send to front
 		res.json({ result: 'success', selectedMeal, order, updatedUser })
-
 	} catch (err) {
 		res.statusCode = 400
 		res.json({ result: 'fail', err: err.message })
