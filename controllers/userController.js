@@ -48,7 +48,7 @@ exports.signUp = async (req, res, next) => {
 			phone: req.body.phoneFromFront,
 			password: hash,
 			token: uid2(32),
-			adresse: [req.body.adresse],
+			adresse: req.body.adresse,
 			allergies: [req.body.allergies],
 			regimeAlim: req.body.regimeAlim,
 			dont: [req.body.dont],
