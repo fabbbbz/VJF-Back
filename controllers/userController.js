@@ -310,7 +310,7 @@ exports.addToBlacklist = async (req, res, next) => {
 	try {
 		const user = await User.findOneAndUpdate(
 			{ token: req.params.token },
-			{ $push: { blacklist: req.body.mealId } },
+			{ $addToSet: { blacklist: req.body.mealId } },
 			{ new: true }
 		)
 		res.json({ result: true, user })
