@@ -218,7 +218,11 @@ exports.updateUser = async (req, res, next) => {
 
 		const doc = await User.findOneAndUpdate(
 			{ token: req.params.token },
-			{ regimeAlim: diet, dont: dont, allergies: allergies },
+			{
+				regimeAlim: diet,
+				$addToset: { dont: dont },
+				$addToSet: { allergies: allergies },
+			},
 			{ new: true }
 		)
 		if (!doc) {
