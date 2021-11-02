@@ -167,7 +167,6 @@ exports.favorites = async (req, res, next) => {
 }
 
 exports.favoritesAdd = async (req, res, next) => {
-
 	try {
 		var favList = await User.findOne({ token: req.body.token })
 			.populate('favorites')
@@ -175,9 +174,7 @@ exports.favoritesAdd = async (req, res, next) => {
 		var favList = favList.favorites
 		var doublon
 
-
 		for (var i = 0; i < favList.length; i++) {
-
 			if (req.body.meal_id == favList[i]._id) {
 				doublon = true
 			}
@@ -254,7 +251,11 @@ exports.history = async (req, res, next) => {
 		var orders = await Order.find({ client: user._id }).populate('meals')
 
 		var meals = orders.map((order, i) => {
-			return { mealName: order.meals[0].name, date: order.date, mealId: order.meals[0]._id }
+			return {
+				mealName: order.meals[0].name,
+				date: order.date,
+				mealId: order.meals[0]._id,
+			}
 		})
 		res.json({ result: true, meals: meals })
 	} catch (err) {
@@ -312,7 +313,19 @@ exports.donts = async (req, res, next) => {
 		console.log('dont', donts.dont)
 
 		res.json({ result: true, donts: donts.dont })
+	} catch (err) {
+		res.json({ result: false, message: err.message })
+	}
+}
 
+exports.addToBlacklist = async (req, res, next) => {
+	try {
+		const user = await User.findOneAndUpdate(
+			{ token: req.params.token },
+			{ $addToSet: { blacklist: req.body.mealId } },
+			{ new: true }
+		)
+		res.json({ result: true, user })
 	} catch (err) {
 		res.json({ result: false, message: err.message })
 	}

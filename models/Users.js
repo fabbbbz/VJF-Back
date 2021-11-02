@@ -20,10 +20,12 @@ var userSchema = mongoose.Schema({
 			values: ['omni', 'vegetarian', 'vegan', 'halal', 'cacher'],
 			message: 'Not a valid diet',
 		},
+		default: 'omni',
 	},
 	dont: [{ type: String }],
 	orders: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Orders' }],
 	favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Meals' }],
+	blacklist: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Meals' }],
 })
 
 var User = mongoose.model('Users', userSchema)

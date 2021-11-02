@@ -51,6 +51,7 @@ exports.makeOrder = async (req, res, next) => {
 			mood: { $in: mood },
 			price: { $gte: req.body.minprice, $lte: req.body.maxprice },
 			ingredients: { $nin: nogo },
+			_id: { $nin: user.blacklist },
 		}).populate({
 			path: 'restaurants',
 			match: {
@@ -99,6 +100,13 @@ exports.getOrder = async (req, res, next) => {
 	try {
 		const user = await User.findOne({ token: req.params.token })
 		const currentOrder = user.orders[user.orders.length - 1] // get the last order pushed
+
+		// CHECK IF USER HAS A LAST ORDER OR HAS NEVER ORDERED
+		if (currentOrder === null) {
+			res.json({ result: 'success', message: 'no order yet' })
+			return
+		}
+
 		const orderDetails = await Order.findById(currentOrder).populate({
 			path: 'meals',
 			populate: {
