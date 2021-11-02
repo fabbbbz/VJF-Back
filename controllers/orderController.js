@@ -33,12 +33,12 @@ exports.makeOrder = async (req, res, next) => {
 			req.body.mood !== 'all'
 				? req.body.mood
 				: [
-						'healthy',
-						'soir de match',
-						'comme chez maman',
-						'cuisine du monde',
-						'a partager',
-				  ]
+					'healthy',
+					'soir de match',
+					'comme chez maman',
+					'cuisine du monde',
+					'a partager',
+				]
 
 		const lng = req.body.coords.lat
 		const lat = req.body.coords.lng
@@ -129,6 +129,61 @@ exports.updateOrder = async (req, res, next) => {
 			{ new: true }
 		)
 		res.json({ result: 'success', order })
+	} catch (err) {
+		res.statusCode = 400
+		res.json({ result: 'fail', err: err.message })
+	}
+}
+
+// Make order only in favorites 
+exports.makeOrderInFav = async (req, res, next) => {
+	try {
+
+		// Get the current user
+		const user = await User.findOne({ token: req.params.token })
+		if (!user) {
+			res.json({
+				result: 'fail',
+				message: 'Token not found. Cant find the user',
+			})
+			return
+		}
+
+		const meals = await user.populate('favorites')
+
+		// Get meals from favorites 
+
+		const test = meals.favorites
+		// select one random meal among the returned meals
+		const selectedMeal =
+			test[Math.floor(Math.random() * test.length)]
+		console.log('this is the favorites' + selectedMeal)
+
+		// handle case when no meal fits all the criteria
+		if (!selectedMeal) {
+			res.json({ result: 'error', message: 'impossible to random in favorites' })
+			return
+		}
+
+		// add a new order to the Order collection
+		const order = await Order.create({
+			client: user._id,
+			meals: selectedMeal._id,
+			price: selectedMeal.price,
+			quantity: req.body.quantity,
+			date: Date.now(),
+			status: 'pending',
+		})
+
+		// Update the User orders
+		const updatedUser = await User.findByIdAndUpdate(
+			user._id,
+			{ $push: { orders: order._id } },
+			{ new: true }
+		)
+		// Send to front
+		res.json({ result: 'success', selectedMeal, order, updatedUser })
+
 	} catch (err) {
 		res.statusCode = 400
 		res.json({ result: 'fail', err: err.message })
