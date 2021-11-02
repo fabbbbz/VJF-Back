@@ -12,7 +12,7 @@ var userSchema = mongoose.Schema({
 	phone: String,
 	password: String,
 	token: String,
-	adresse: [{ type: String }],
+	adresse: String,
 	allergies: [{ type: String }],
 	regimeAlim: {
 		type: String,
