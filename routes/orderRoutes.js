@@ -4,6 +4,7 @@ const {
 	getOrder,
 	makeOrder,
 	updateOrder,
+	makeOrderInFav,
 	pay,
 } = require('../controllers/orderController')
 
@@ -11,5 +12,6 @@ const {
 router.post('/recap/:token', makeOrder) // route used to generate meal (oui le nom est pourrave)
 router.get('/recap/:token', getOrder)
 router.put('/update-order/:id', updateOrder)
+router.get('/makeorderinfav/:token', makeOrderInFav)
 
 module.exports = router

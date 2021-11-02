@@ -214,8 +214,6 @@ exports.favoritesDel = async (req, res, next) => {
 exports.updateUser = async (req, res, next) => {
 	try {
 		const { diet, dont, allergies } = req.body
-		console.log(dont)
-
 		const doc = await User.findOneAndUpdate(
 			{ token: req.params.token },
 			{ regimeAlim: diet, dont: dont, allergies: allergies },
@@ -225,6 +223,20 @@ exports.updateUser = async (req, res, next) => {
 			throw new Error("User could'n be updated")
 		}
 		res.json({ result: 'success', doc })
+	} catch (err) {
+		res.statusCode = 400
+		res.json({ result: false, message: err.message })
+	}
+}
+
+exports.updateUserAddress = async (req, res, next) => {
+
+	try {
+		await User.findOneAndUpdate(
+			{ token: req.params.token },
+			{ adresse: req.body.address })
+
+		res.json({ result: 'success', })
 	} catch (err) {
 		res.statusCode = 400
 		res.json({ result: false, message: err.message })
@@ -272,7 +284,7 @@ exports.delAllergies = async (req, res, next) => {
 			.populate('allergies')
 			.exec()
 		console.log('allergies in back', allergies)
-		allergyList = allergies.allergies
+		var allergyList = allergies.allergies
 		allergies = allergyList.filter(element => element !== req.params.allergy)
 
 		var delAllergies = await User.updateOne(
