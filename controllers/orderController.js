@@ -33,12 +33,12 @@ exports.makeOrder = async (req, res, next) => {
 			req.body.mood !== 'all'
 				? req.body.mood
 				: [
-						'healthy',
-						'soir de match',
-						'comme chez maman',
-						'cuisine du monde',
-						'a partager',
-				  ]
+					'healthy',
+					'soir de match',
+					'comme chez maman',
+					'cuisine du monde',
+					'a partager',
+				]
 
 		const lng = req.body.coords.lat
 		const lat = req.body.coords.lng
@@ -155,16 +155,11 @@ exports.makeOrderInFav = async (req, res, next) => {
 			})
 			return
 		}
-
 		const meals = await user.populate('favorites')
-
 		// Get meals from favorites
-
-		const test = meals.favorites
+		const favmeals = meals.favorites
 		// select one random meal among the returned meals
-		const selectedMeal = test[Math.floor(Math.random() * test.length)]
-		console.log('this is the favorites' + selectedMeal)
-
+		const selectedMeal = favmeals[Math.floor(Math.random() * favmeals.length)]
 		// handle case when no meal fits all the criteria
 		if (!selectedMeal) {
 			res.json({
@@ -173,7 +168,6 @@ exports.makeOrderInFav = async (req, res, next) => {
 			})
 			return
 		}
-
 		// add a new order to the Order collection
 		const order = await Order.create({
 			client: user._id,
@@ -183,7 +177,6 @@ exports.makeOrderInFav = async (req, res, next) => {
 			date: Date.now(),
 			status: 'pending',
 		})
-
 		// Update the User orders
 		const updatedUser = await User.findByIdAndUpdate(
 			user._id,

@@ -1,18 +1,29 @@
 [
 	{
 		"name": "Mama Mia Lets-a-go",
-		"meals": ["617aa7368b741bd15b9e9c48", "617aa7368b741bd15b9e9c4b"],
+		"meals": [
+			"617aa7368b741bd15b9e9c48",
+			"617aa7368b741bd15b9e9c4b"
+		],
 		"location": {
 			"type": "Point",
-			"coordinates": [48.887124, 2.304413]
+			"coordinates": [
+				48.887124,
+				2.304413
+			]
 		}
 	},
 	{
 		"name": "Fromage Kipu",
-		"meals": ["617aa7368b741bd15b9e9c4a"],
+		"meals": [
+			"617aa7368b741bd15b9e9c4a"
+		],
 		"location": {
 			"type": "Point",
-			"coordinates": [48.886152, 2.309922]
+			"coordinates": [
+				48.886152,
+				2.309922
+			]
 		}
 	},
 	{
@@ -24,31 +35,91 @@
 		],
 		"location": {
 			"type": "Point",
-			"coordinates": [48.880647, 2.310557]
+			"coordinates": [
+				48.880647,
+				2.310557
+			]
 		}
 	},
 	{
 		"name": "Nihongo wakaranai",
-		"meals": ["6179138b8b741bd15b9e9bae"],
+		"meals": [
+			"6179138b8b741bd15b9e9bae"
+		],
 		"location": {
 			"type": "Point",
-			"coordinates": [48.867936, 2.29993]
+			"coordinates": [
+				48.867936,
+				2.29993
+			]
 		}
 	},
 	{
 		"name": "Du sucre et du gras",
-		"meals": ["617aa7368b741bd15b9e9c48", "617aa7368b741bd15b9e9c49"],
+		"meals": [
+			"617aa7368b741bd15b9e9c48",
+			"617aa7368b741bd15b9e9c49"
+		],
 		"location": {
 			"type": "Point",
-			"coordinates": [48.873722, 2.337203]
+			"coordinates": [
+				48.873722,
+				2.337203
+			]
 		}
 	},
 	{
 		"name": "Chez Wawa - Resto Vincennois",
-		"meals": ["617aa7368b741bd15b9e9c48", "617aa7368b741bd15b9e9c49"],
+		"meals": [
+			"617aa7368b741bd15b9e9c48",
+			"617aa7368b741bd15b9e9c49"
+		],
 		"location": {
 			"type": "Point",
-			"coordinates": [48.848318, 2.441235]
+			"coordinates": [
+				48.848318,
+				2.441235
+			]
+		}
+	},
+	{
+		"name": "Chez Riz-Riz",
+		"location": {
+			"type": "Point",
+			"coordinates": [
+				47.818318,
+				2.451235
+			]
+		}
+	},
+	{
+		"name": "Chez Riz-Riz",
+		"location": {
+			"type": "Point",
+			"coordinates": [
+				47.818318,
+				2.451235
+			]
+		}
+	},
+	{
+		"name": "Roule ma moule",
+		"location": {
+			"type": "Point",
+			"coordinates": [
+				47.918318,
+				2.551235
+			]
+		}
+	},
+	{
+		"name": "Thai-Tanic",
+		"location": {
+			"type": "Point",
+			"coordinates": [
+				47.788318,
+				2.666235
+			]
 		}
 	}
 ]
