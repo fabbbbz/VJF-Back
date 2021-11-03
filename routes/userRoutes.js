@@ -11,7 +11,11 @@ const {
 	getUserInfo,
 	getAllergies,
 	delAllergies,
-	donts, updateUserAddress, addToBlacklist
+	updateUserAddress, addToBlacklist,
+	donts,
+	adddonts,
+	deletedonts
+
 } = require('../controllers/userController')
 
 //Route for Sign-Up
@@ -33,4 +37,6 @@ router.get('/myDonts/:token', donts)
 // gestion Blacklist
 router.put('/blacklist/:token', addToBlacklist)
 
+router.post('/adddonts/:token', adddonts)
+router.delete('/deletedonts/:token/:dont', deletedonts)
 module.exports = router
