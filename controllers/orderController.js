@@ -47,7 +47,7 @@ exports.makeOrder = async (req, res, next) => {
 
 		// find all the meals that fit the user profile
 		const meals = await Meal.find({
-			regimeAlim: { $in: user.regimAlim },
+			regimeAlim: { $in: user.regimeAlim },
 			mood: { $in: mood },
 			price: { $gte: req.body.minprice, $lte: req.body.maxprice },
 			ingredients: { $nin: nogo },
