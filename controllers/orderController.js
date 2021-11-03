@@ -27,6 +27,8 @@ exports.makeOrder = async (req, res, next) => {
 
 		// make one array with his donts and allergies to compare with the meals ingredients
 		const nogo = user.dont.concat(user.allergies)
+		// make everything lowercase
+		const nogoLower = nogo.map(nogo => nogo.toLowerCase())
 
 		// handle full random mood
 		const mood =
@@ -50,7 +52,7 @@ exports.makeOrder = async (req, res, next) => {
 			regimeAlim: { $in: user.regimeAlim },
 			mood: { $in: mood },
 			price: { $gte: req.body.minprice, $lte: req.body.maxprice },
-			ingredients: { $nin: nogo },
+			ingredients: { $nin: nogoLower },
 			_id: { $nin: user.blacklist },
 		}).populate({
 			path: 'restaurants',
