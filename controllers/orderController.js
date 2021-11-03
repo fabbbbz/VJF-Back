@@ -206,16 +206,10 @@ exports.makeOrderInFav = async (req, res, next) => {
 exports.payment = async (req, res, next) => {
 	const stripe = require('stripe')('sk_test_51JrTrKGYLeZVv03JtV4ehIwMYnh4ZbIWpgUDdiIZlMi0OLOeGhlfcCeznynmhLCYv1vVizIvaLK5d8TI8hoa1MoM00vwNDE24q');
 	const { paymentMethodType, currency } = req.body;
-
-	// Each payment method type has support for different currencies. In order to
-	// support many payment method types and several currencies, this server
-	// endpoint accepts both the payment method type and the currency as
-	// parameters.
-	//
-	// Some example payment method types include `card`, `ideal`, and `alipay`.
+	var prix = req.body.price * 100
 	const params = {
 		payment_method_types: [paymentMethodType],
-		amount: req.body.price,
+		amount: prix,
 		currency: "eur",
 	}
 	const paymentIntent = await stripe.paymentIntents.create({
