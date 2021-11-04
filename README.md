@@ -6,7 +6,8 @@
   <img src="https://img.shields.io/badge/Version-0.1-%3CCOLOR%3E">  <img src="https://img.shields.io/badge/lang-JavaScript-blueviolet">
 
 [![VJF Actions Status](https://github.com/fabbbbz/VJF/workflows/VJF/badge.svg)](https://github.com/fabbbbz/VJF/actions)
-[![Android-master Actions Status](https://github.com/AndreSand/BornInApp/workflows/android-master/badge.svg)](https://github.com/AndreSand/BornInApp/actions)
+[![TEST](https://github.com/AndreSand/BornInApp/workflows/android-master/badge.svg)](https://github.com/AndreSand/BornInApp/actions)
+
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 <!-- ABOUT THE PROJECT -->
