@@ -7,7 +7,7 @@
 
 [![VJF Actions Status](https://github.com/fabbbbz/VJF/workflows/VJF/badge.svg)](https://github.com/fabbbbz/VJF/actions)
 [![TEST](https://github.com/AndreSand/BornInApp/workflows/android-master/badge.svg)](https://github.com/AndreSand/BornInApp/actions)
-
+[![test](https://github.com/Nklya/test-actions/workflows/test/badge.svg)](https://github.com/Nklya/test-actions/actions?query=workflow%3Atest)
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 <!-- ABOUT THE PROJECT -->
