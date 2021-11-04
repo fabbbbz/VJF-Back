@@ -5,6 +5,9 @@
 
   <img src="https://img.shields.io/badge/Version-0.1-%3CCOLOR%3E">  <img src="https://img.shields.io/badge/lang-JavaScript-blueviolet">
 
+[![YourActionName Actions Status](https://github.com/{userName}/{repoName}/workflows/{workflowName}/badge.svg)](https://github.com/fabbbbz/VJF/actions)
+
+
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 <!-- ABOUT THE PROJECT -->
