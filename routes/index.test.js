@@ -11,3 +11,13 @@ test("Test if App is up", async () => {
       expect(response.body.appname).toBe("Vite Jai Faim!!")
     })
 })
+
+test("Test recap orders for a customer", async () => {
+  await request(app)
+    .get("/orders/recap/BHbxITgVrZnaS5OQHxYVgaIaROQHliZr")
+    .expect(200)
+    .then((response) => {
+      expect(response.body.orderPrice).toBe(12)
+      expect(response.body.result).toBe('success')
+    })
+}, 30000);
