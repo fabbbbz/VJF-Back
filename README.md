@@ -8,7 +8,7 @@
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 <!-- ABOUT THE PROJECT -->
-<h2 id="about-the-project"> :pencil: About The Project</h2>
+<h3 id="about-the-project"> :pencil: About The Project</h3>
 
 <p align="justify"> 
 Mystery dish delivery mobile appliction
