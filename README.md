@@ -5,6 +5,7 @@
 
 <img src="https://img.shields.io/badge/NodeJS-brightgreen"> [![Tests](https://github.com/fabbbbz/VJF/actions/workflows/node.js.yml/badge.svg)](https://github.com/fabbbbz/VJF/actions/workflows/node.js.yml) ![Heroku](https://pyheroku-badge.herokuapp.com/?app=vitejaifaim&path=/testapp)
 
+
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 <!-- ABOUT THE PROJECT -->
@@ -14,3 +15,4 @@
 Mystery dish delivery mobile appliction
 </p>
 
+![Stats](https://github-readme-stats.vercel.app/api/top-langs/?username=fabbbbz&theme=blue-green)
