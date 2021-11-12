@@ -3,7 +3,10 @@
 </p>
 <h1 align="center"> Vite J'ai Faim !</h1>
 
-[![Tests](https://github.com/fabbbbz/VJF/actions/workflows/node.js.yml/badge.svg)](https://github.com/fabbbbz/VJF/actions/workflows/node.js.yml) [![Heroku](https://pyheroku-badge.herokuapp.com/?app=vitejaifaim&path=/testapp)](https://vitejaifaim.herokuapp.com)
+[![Tests](https://github.com/fabbbbz/VJF/actions/workflows/node.js.yml/badge.svg)](https://github.com/fabbbbz/VJF/actions/workflows/node.js.yml) [![Heroku](https://pyheroku-badge.herokuapp.com/?app=vitejaifaim&path=/testapp)](https://vitejaifaim.herokuapp.com)  
+    <a href="https://github.com/fabbbbz/VJF-Back/pulls">
+      <img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/anuraghazra/github-readme-stats?color=0088ff" />
+    </a>
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 <!-- ABOUT THE PROJECT -->
