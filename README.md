@@ -5,6 +5,8 @@
 
 <img src="https://img.shields.io/badge/JavaScript-blueviolet"> [![Tests](https://github.com/fabbbbz/VJF/actions/workflows/node.js.yml/badge.svg)](https://github.com/fabbbbz/VJF/actions/workflows/node.js.yml) [![Herooku](https://pyheroku-badge.herokuapp.com/?app=vitejaifaim)](https://vitejaifaim.herokuapp.com/)
 
+![Your Repository's Stats](https://github-readme-stats.vercel.app/api?username=fabbbbz&show_icons=true)
+
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 <!-- ABOUT THE PROJECT -->
