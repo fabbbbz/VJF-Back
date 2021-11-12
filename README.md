@@ -3,7 +3,7 @@
 </p>
 <h1 align="center"> Vite J'ai Faim !</h1>
 
-![](https://img.shields.io/badge/JavaScript-informational?style=flat&logo=JavaScript&logoColor=white&color=brightgreen) ![](https://img.shields.io/badge/MongoDB-informational?style=flat&logo=MongoDB&logoColor=white&color=brightgreen) [![Tests](https://github.com/fabbbbz/VJF/actions/workflows/node.js.yml/badge.svg)](https://github.com/fabbbbz/VJF/actions/workflows/node.js.yml) ![Heroku](https://pyheroku-badge.herokuapp.com/?app=vitejaifaim&path=/testapp)
+[![Tests](https://github.com/fabbbbz/VJF/actions/workflows/node.js.yml/badge.svg)](https://github.com/fabbbbz/VJF/actions/workflows/node.js.yml) ![Heroku](https://pyheroku-badge.herokuapp.com/?app=vitejaifaim&path=/testapp)
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 <!-- ABOUT THE PROJECT -->
