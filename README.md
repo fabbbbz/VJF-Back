@@ -3,8 +3,8 @@
 </p>
 <h1 align="center"> Vite J'ai Faim !</h1>
 
-<img src="https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white"> [![Npm-Test](https://github.com/fabbbbz/VJF/actions/workflows/node.js.yml/badge.svg)](https://github.com/fabbbbz/VJF/actions/workflows/node.js.yml) [![Herooku](https://pyheroku-badge.herokuapp.com/?app=vitejaifaim)](https://vitejaifaim.herokuapp.com/)
-
+<img src="https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white"> [![Npm-Test](https://github.com/fabbbbz/VJF/actions/workflows/node.js.yml/badge.svg)](https://github.com/fabbbbz/VJF/actions/workflows/node.js.yml) [![Heroku](https://pyheroku-badge.herokuapp.com/?app=vitejaifaim)](https://vitejaifaim.herokuapp.com/)
+[![Stats](https://github-readme-stats.vercel.app/api/top-langs/?username=fabbbbz&theme=blue-green)
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
