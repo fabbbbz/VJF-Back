@@ -5,5 +5,6 @@ const {
 } = require('../controllers/testApp')
 
 router.get('/testapp', testApp)
+router.get('/', testApp)
 
 module.exports = router
