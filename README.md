@@ -3,7 +3,7 @@
 </p>
 <h1 align="center"> Vite J'ai Faim !!</h1>
 
-<img src="https://img.shields.io/badge/lang-JavaScript-blueviolet"> [![Tests](https://github.com/fabbbbz/VJF/actions/workflows/node.js.yml/badge.svg)](https://github.com/fabbbbz/VJF/actions/workflows/node.js.yml) ![Heroku](https://vitejaifaim.herokuapp.com//?app=pyheroku-badge)
+<img src="https://img.shields.io/badge/lang-JavaScript-blueviolet"> [![Tests](https://github.com/fabbbbz/VJF/actions/workflows/node.js.yml/badge.svg)](https://github.com/fabbbbz/VJF/actions/workflows/node.js.yml) ![Heroku](https://vitejaifaim.herokuapp.com/testapp?app=pyheroku-badge)
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
