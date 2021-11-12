@@ -3,7 +3,7 @@
 </p>
 <h1 align="center"> Vite J'ai Faim !</h1>
 
-[![Tests](https://github.com/fabbbbz/VJF/actions/workflows/node.js.yml/badge.svg)](https://github.com/fabbbbz/VJF/actions/workflows/node.js.yml) ![Heroku](https://pyheroku-badge.herokuapp.com/?app=vitejaifaim&path=/testapp)
+[![Tests](https://github.com/fabbbbz/VJF/actions/workflows/node.js.yml/badge.svg)](https://github.com/fabbbbz/VJF/actions/workflows/node.js.yml) [![Heroku](https://pyheroku-badge.herokuapp.com/?app=vitejaifaim&path=/testapp)](https://vitejaifaim.herokuapp.com)
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 <!-- ABOUT THE PROJECT -->
