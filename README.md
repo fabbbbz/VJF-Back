@@ -15,4 +15,4 @@
 Mystery dish delivery mobile appliction
 </p>
 
-[![Stats](https://github-readme-stats.vercel.app/api/top-langs/?username=fabbbbz&theme=blue-green)
+![Stats](https://github-readme-stats.vercel.app/api/top-langs/?username=fabbbbz&theme=blue-green)
