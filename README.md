@@ -10,5 +10,5 @@
 <h3 id="about-the-project"> :pencil: About The Project</h3>
 
 <p align="justify"> 
-Mystery dish delivery mobile appliction
+🍔 Mystery dish delivery mobile appliction 🍕
 </p>
