@@ -4,7 +4,7 @@
 <h1 align="center"> Vite J'ai Faim !!</h1>
 
 <img src="https://img.shields.io/badge/lang-JavaScript-blueviolet"> [![Tests](https://github.com/fabbbbz/VJF/actions/workflows/node.js.yml/badge.svg)](https://github.com/fabbbbz/VJF/actions/workflows/node.js.yml) 
-![Heroku](https://pyheroku-badge.herokuapp.com/?app=https://vitejaifaim.herokuapp.com/testapp)
+![Heroku](https://pyheroku-badge.herokuapp.com/?app=vitejaifaim.herokuapp.com/testapp)
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
