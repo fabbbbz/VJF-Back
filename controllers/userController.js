@@ -71,7 +71,7 @@ exports.signUp = async (req, res, next) => {
 		res.statusCode = 400
 		// Response Object
 		res.json({
-			message: err.message,
+		message: err.message,
 		})
 	}
 }
@@ -99,8 +99,8 @@ exports.signIn = async (req, res, next) => {
 				throw Error('Bad password!')
 			}
 		} else {
-			// Add error in catch
-			throw Error('Bad Email!')
+		// Add error in catch
+		throw Error('Bad Email!')
 		}
 		// Response Object
 		res.json({ result, user, token })
@@ -110,8 +110,8 @@ exports.signIn = async (req, res, next) => {
 		res.statusCode = 400
 		// Response Object
 		res.json({
-			status: 'fail',
-			message: err.message
+		status: 'fail',
+		message: err.message
 		})
 	}
 }
@@ -153,8 +153,8 @@ exports.favorites = async (req, res, next) => {
 exports.favoritesAdd = async (req, res, next) => {
 	try {
 		const user = await User.findOneAndUpdate(
-			{ token: req.body.token },
-			{ $addToSet: { favorites: req.body.meal_id } },
+		{ token: req.body.token },
+		{ $addToSet: { favorites: req.body.meal_id } },
 		)
 		res.json({ result: 'success', favorites: user.favorites })
 	} catch (err) {
@@ -166,8 +166,8 @@ exports.favoritesAdd = async (req, res, next) => {
 exports.favoritesDel = async (req, res, next) => {
 	try {
 		await User.updateOne(
-			{ token: req.params.token },
-			{ $pull: { favorites: req.params.meal_id } }
+		{ token: req.params.token },
+		{ $pull: { favorites: req.params.meal_id } }
 		)
 		var user = await User.findOne({ token: req.params.token })
 		res.json({ result: 'success', favorites: user.favorites })
@@ -181,12 +181,12 @@ exports.updateUser = async (req, res, next) => {
 	try {
 		const { diet, dont, allergies } = req.body
 		const doc = await User.findOneAndUpdate(
-			{ token: req.params.token },
-			{ regimeAlim: diet, dont: dont, allergies: allergies },
-			{ new: true }
+		{ token: req.params.token },
+		{ regimeAlim: diet, dont: dont, allergies: allergies },
+		{ new: true }
 		)
 		if (!doc) {
-			throw new Error("User could'n be updated")
+		throw new Error("User could'n be updated")
 		}
 		res.json({ result: 'success', doc })
 	} catch (err) {
@@ -198,16 +198,9 @@ exports.updateUser = async (req, res, next) => {
 exports.updateUserAddress = async (req, res, next) => {
 	try {
 		await User.findOneAndUpdate(
-			{ token: req.params.token },
-<<<<<<< HEAD
-			{ adresse: req.body.address })
+		{ token: req.params.token },
+		{ adresse: req.body.address })
 		res.json({ result: 'success', })
-=======
-			{ adresse: req.body.address }
-		)
-
-		res.json({ result: 'success' })
->>>>>>> dbd18a15cec6c2f287b2c03934e766b8e8f8fc10
 	} catch (err) {
 		res.statusCode = 400
 		res.json({ result: 'fail', message: err.message })
@@ -221,9 +214,9 @@ exports.history = async (req, res, next) => {
 		var orders = await Order.find({ client: user._id }).populate('meals')
 		var meals = orders.map((order, i) => {
 			return {
-				mealName: order.meals[0].name,
-				date: order.date,
-				mealId: order.meals[0]._id,
+			mealName: order.meals[0].name,
+			date: order.date,
+			mealId: order.meals[0]._id,
 			}
 		})
 		res.json({ result: 'success', meals: meals })
@@ -291,17 +284,8 @@ exports.adddonts = async (req, res, next) => {
 		const updateDonts = await User.findOneAndUpdate(
 			{ token: req.params.token },
 			{ $push: { dont: req.body.dont } },
-<<<<<<< HEAD
 			{ new: true })
 		res.json({ result: 'success', donts: updateDonts })
-=======
-			{ new: true }
-		)
-
-		console.log('adddonts', adddonts.dont)
-
-		res.json({ result: true, donts: updateDonts })
->>>>>>> dbd18a15cec6c2f287b2c03934e766b8e8f8fc10
 	} catch (err) {
 		res.statusCode = 400
 		res.json({ result: 'fail', message: err.message })
@@ -315,25 +299,7 @@ exports.deletedonts = async (req, res, next) => {
 			{ $pull: { dont: req.params.dont } },
 			{ new: true }
 		)
-<<<<<<< HEAD
 		res.json({ result: 'success', donts: updateDonts.dont })
-=======
-
-		res.json({ result: true, donts: updateDonts.dont })
-	} catch (err) {
-		res.json({ result: false, message: err.message })
-	}
-}
-
-exports.updateDiet = async (req, res, next) => {
-	try {
-		const user = await User.findOneAndUpdate(
-			{ token: req.body.token },
-			{ regimeAlim: req.body.diet },
-			{ new: true }
-		)
-		res.json({ result: true, newDiet: user.regimeAlim })
->>>>>>> dbd18a15cec6c2f287b2c03934e766b8e8f8fc10
 	} catch (err) {
 		res.statusCode = 400
 		res.json({ result: 'fail', message: err.message })
