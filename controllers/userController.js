@@ -199,8 +199,15 @@ exports.updateUserAddress = async (req, res, next) => {
 	try {
 		await User.findOneAndUpdate(
 			{ token: req.params.token },
+<<<<<<< HEAD
 			{ adresse: req.body.address })
 		res.json({ result: 'success', })
+=======
+			{ adresse: req.body.address }
+		)
+
+		res.json({ result: 'success' })
+>>>>>>> dbd18a15cec6c2f287b2c03934e766b8e8f8fc10
 	} catch (err) {
 		res.statusCode = 400
 		res.json({ result: 'fail', message: err.message })
@@ -284,23 +291,49 @@ exports.adddonts = async (req, res, next) => {
 		const updateDonts = await User.findOneAndUpdate(
 			{ token: req.params.token },
 			{ $push: { dont: req.body.dont } },
+<<<<<<< HEAD
 			{ new: true })
 		res.json({ result: 'success', donts: updateDonts })
+=======
+			{ new: true }
+		)
+
+		console.log('adddonts', adddonts.dont)
+
+		res.json({ result: true, donts: updateDonts })
+>>>>>>> dbd18a15cec6c2f287b2c03934e766b8e8f8fc10
 	} catch (err) {
 		res.statusCode = 400
 		res.json({ result: 'fail', message: err.message })
 	}
 }
 
-
 exports.deletedonts = async (req, res, next) => {
 	try {
 		const updateDonts = await User.findOneAndUpdate(
 			{ token: req.params.token },
 			{ $pull: { dont: req.params.dont } },
-			{ new: true },
+			{ new: true }
 		)
+<<<<<<< HEAD
 		res.json({ result: 'success', donts: updateDonts.dont })
+=======
+
+		res.json({ result: true, donts: updateDonts.dont })
+	} catch (err) {
+		res.json({ result: false, message: err.message })
+	}
+}
+
+exports.updateDiet = async (req, res, next) => {
+	try {
+		const user = await User.findOneAndUpdate(
+			{ token: req.body.token },
+			{ regimeAlim: req.body.diet },
+			{ new: true }
+		)
+		res.json({ result: true, newDiet: user.regimeAlim })
+>>>>>>> dbd18a15cec6c2f287b2c03934e766b8e8f8fc10
 	} catch (err) {
 		res.statusCode = 400
 		res.json({ result: 'fail', message: err.message })

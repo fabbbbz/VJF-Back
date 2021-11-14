@@ -7,7 +7,7 @@ const userRouter = require('./routes/userRoutes')
 const orderRouter = require('./routes/orderRoutes')
 const testApp = require('./routes/testApp')
 var app = express()
-
+const { resolve } = require('path');
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
