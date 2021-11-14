@@ -1,5 +1,4 @@
 // Configuration Expres Server
-
 require('./config/connexion')
 const dotenv = require('dotenv')
 dotenv.config({ path: './config.env' })
@@ -24,9 +23,9 @@ app.listen(PORT, () => {
 
 	console.log(`Network private access via: ${privateIp}:${PORT}`)
 	const publicIp = require('public-ip')
-	;(async () => {
-		console.log(
-			'Network public access via: ' + (await publicIp.v4()) + ':' + PORT
-		)
-	})()
+		; (async () => {
+			console.log(
+				'Network public access via: ' + (await publicIp.v4()) + ':' + PORT
+			)
+		})()
 })

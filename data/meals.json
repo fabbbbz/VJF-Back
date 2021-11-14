@@ -156,5 +156,26 @@
 			"healthy"
 		],
 		"restaurants": "61824cae27861a279ca43528"
+	},
+	{
+		"name": "Quiche de saison",
+		"price": 34,
+		"ingredients": [
+			"tomate",
+			"Pate",
+			"courgette",
+			"poireau"
+		],
+		"regimeAlim": [
+			"omni",
+			"vegetarian",
+			"halal",
+			"cacher"
+		],
+		"mood": [
+			"comme chez maman",
+			"a partager"
+		],
+		"restaurants": "617b1507ce193f3fcf6eea67"
 	}
 ]
