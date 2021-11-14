@@ -305,3 +305,16 @@ exports.deletedonts = async (req, res, next) => {
 		res.json({ result: 'fail', message: err.message })
 	}
 }
+
+exports.updateDiet = async (req, res, next) => {
+	try {
+		const user = await User.findOneAndUpdate(
+			{ token: req.body.token },
+			{ regimeAlim: req.body.diet },
+			{ new: true }
+		)
+		res.json({ result: true, newDiet: user.regimeAlim })
+	} catch (err) {
+		res.json({ result: false, message: err.message })
+	}
+}
