@@ -19,7 +19,7 @@ test("Get Infos from Bad User", async () => {
     .expect('Content-Type', /json/)
     .expect(400)
     .then((response) => {
-      expect(response.body.result).toBe('fail')
+      expect(response.body.result).toBe(false)
     });
 });
 
