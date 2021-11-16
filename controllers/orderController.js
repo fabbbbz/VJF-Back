@@ -1,6 +1,7 @@
 const User = require('../models/Users')
 const Order = require('../models/Orders')
 const Meal = require('../models/Meals')
+const Restaurant = require('../models/Restaurants')
 const dotenv = require('dotenv')
 dotenv.config({ path: './config.env' })
 const stripeSK = (process.env.SECRET_KEY)
