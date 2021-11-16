@@ -45,7 +45,6 @@ exports.signUp = async (req, res, next) => {
 			allergies: [req.body.allergies],
 			regimeAlim: req.body.regimeAlim,
 			dont: [req.body.dont],
-			//orders et favorites doivent recevoir des clées étrangeres, la bdd etant vide on recupère juste des datas depuis postman en attendant
 			orders: [req.body.orders],
 			favorites: [req.body.favorites],
 		})
@@ -66,12 +65,13 @@ exports.signUp = async (req, res, next) => {
 		res.json({ result, saveUser, token })
 		// Catch error & send to front
 	} catch (err) {
+		// Create error variable with err.message
 		let error = err.message
 		// Response Object
 		res.statusCode = 400
 		res.json({
 			result,
-			error,
+			error
 		})
 	}
 }
@@ -104,8 +104,8 @@ exports.signIn = async (req, res, next) => {
 		}
 		// Response Object
 		res.json({ result, user, token })
-	} catch (err) {
 		// Catch error & send to front
+	} catch (err) {
 		// Create error variable with err.message
 		let error = err.message
 		// Add error status
@@ -113,7 +113,7 @@ exports.signIn = async (req, res, next) => {
 		// Response Object
 		res.json({
 			result,
-			error,
+			error
 		})
 	}
 }
@@ -237,10 +237,10 @@ exports.history = async (req, res, next) => {
 
 exports.getAllergies = async (req, res, next) => {
 	try {
-		var allergies = await User.findOne({ token: req.params.token })
+		var user = await User.findOne({ token: req.params.token })
 			.populate('allergies')
-			.exec()
-		res.json({ result: 'success', allergies: allergies.allergies })
+
+		res.json({ result: 'success', allergies: user.allergies })
 	} catch (err) {
 		res.statusCode = 400
 		// Catch error
@@ -250,10 +250,10 @@ exports.getAllergies = async (req, res, next) => {
 
 exports.delAllergies = async (req, res, next) => {
 	try {
-		var allergies = await User.findOne({ token: req.params.token })
+		var user = await User.findOne({ token: req.params.token })
 			.populate('allergies')
-			.exec()
-		var allergyList = allergies.allergies
+
+		var allergyList = user.allergies
 		allergies = allergyList.filter(element => element !== req.params.allergy)
 		var delAllergies = await User.updateOne(
 			{ token: req.params.token },
@@ -272,10 +272,10 @@ exports.delAllergies = async (req, res, next) => {
 
 exports.donts = async (req, res, next) => {
 	try {
-		var donts = await User.findOne({ token: req.params.token })
+		var user = await User.findOne({ token: req.params.token })
 			.populate('dont')
-			.exec()
-		res.json({ result: 'sucess', donts: donts.dont })
+
+		res.json({ result: 'sucess', donts: user.dont })
 	} catch (err) {
 		res.json({ result: 'fail', message: err.message })
 	}
@@ -298,7 +298,7 @@ exports.adddonts = async (req, res, next) => {
 	try {
 		var adddonts = await User.findOne({ token: req.params.token })
 			.populate('dont')
-			.exec()
+
 		const updateDonts = await User.findOneAndUpdate(
 			{ token: req.params.token },
 			{ $push: { dont: req.body.dont } },
