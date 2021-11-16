@@ -5,9 +5,7 @@ const dotenv = require('dotenv')
 dotenv.config({ path: './config.env' })
 const stripeSK = (process.env.SECRET_KEY)
 const stripe = require('stripe')(`${stripeSK}`)
-
-// Distance max de livraison, en km
-const MAX_DISTANCE = 3
+const MAX_DISTANCE = 3 // Distance max de livraison, en km
 
 exports.makeOrder = async (req, res, next) => {
 	try {
@@ -26,7 +24,6 @@ exports.makeOrder = async (req, res, next) => {
 			})
 			return
 		}
-
 		// make one array with his donts and allergies to compare with the meals ingredients
 		const nogo = user.dont.concat(user.allergies)
 		// make everything lowercase
@@ -75,7 +72,6 @@ exports.makeOrder = async (req, res, next) => {
 			res.json({ result: 'success', message: 'no meal fits' })
 			return
 		}
-
 		// add a new order to the Order collection
 		const order = await Order.create({
 			client: user._id,
@@ -85,7 +81,6 @@ exports.makeOrder = async (req, res, next) => {
 			date: Date.now(),
 			status: 'pending',
 		})
-
 		// Update the User orders
 		const updatedUser = await User.findByIdAndUpdate(
 			user._id,

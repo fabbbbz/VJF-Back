@@ -7,9 +7,8 @@ const {
 	makeOrderInFav,
 	payment,
 } = require('../controllers/orderController')
-
-
-router.post('/recap/:token', makeOrder) // route used to generate meal 
+// route used to generate meal 
+router.post('/recap/:token', makeOrder)
 router.get('/recap/:token', getOrder)
 router.put('/update-order/:id', updateOrder)
 router.get('/makeorderinfav/:token', makeOrderInFav)
