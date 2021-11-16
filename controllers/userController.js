@@ -3,7 +3,7 @@ const User = require('../models/Users')
 const Order = require('../models/Orders')
 const bcrypt = require('bcrypt')
 const validateEmail = require('../functions/validateEmails') //import function to check emails
-const sendEmail = require('../functions/sendEmail')
+const sendEmail = require('../functions/sendEmail') //import function to send emails
 
 exports.signUp = async (req, res, next) => {
 	let result = 'fail'
@@ -121,7 +121,6 @@ exports.signIn = async (req, res, next) => {
 exports.getUserInfo = async (req, res, next) => {
 	try {
 		var user = await User.findOne({ token: req.params.token })
-
 		var userInfo = {
 			firstName: user.firstName,
 			lastName: user.lastName,
@@ -209,7 +208,6 @@ exports.updateUserAddress = async (req, res, next) => {
 			{ token: req.params.token },
 			{ adresse: req.body.address }
 		)
-
 		res.json({ result: 'success' })
 	} catch (err) {
 		res.statusCode = 400
