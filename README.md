@@ -5,7 +5,6 @@
 
 [![Tests](https://github.com/fabbbbz/VJF/actions/workflows/node.js.yml/badge.svg)](https://github.com/fabbbbz/VJF/actions/workflows/node.js.yml) [![Heroku](https://pyheroku-badge.herokuapp.com/?app=vitejaifaim&path=/testapp)](https://vitejaifaim.herokuapp.com)  
 
-[![Sparkline](https://stars.medv.io/fabbbbz/VJF-Back.svg)](https://stars.medv.io/fabbbbz/VJF-Back)
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
