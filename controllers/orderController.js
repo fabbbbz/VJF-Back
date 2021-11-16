@@ -2,11 +2,9 @@ const User = require('../models/Users')
 const Order = require('../models/Orders')
 const Meal = require('../models/Meals')
 const dotenv = require('dotenv')
-
 dotenv.config({ path: './config.env' })
-const stripe = require('stripe')
-const stripePK = process.env.PUBLISHABLE_KEY
-const stripeSK = (process.env.SECRET_KEY, { apiVersion: "2020-08-27" })
+const stripeSK = (process.env.SECRET_KEY)
+const stripe = require('stripe')(`${stripeSK}`)
 
 // Distance max de livraison, en km
 const MAX_DISTANCE = 3
@@ -197,7 +195,6 @@ exports.makeOrderInFav = async (req, res, next) => {
 	}
 }
 exports.payment = async (req, res, next) => {
-	const stripe = require('stripe')('sk_test_51JrTrKGYLeZVv03JtV4ehIwMYnh4ZbIWpgUDdiIZlMi0OLOeGhlfcCeznynmhLCYv1vVizIvaLK5d8TI8hoa1MoM00vwNDE24q');
 	const { paymentMethodType, currency } = req.body;
 	var prix = req.body.price * 100
 	const params = {
