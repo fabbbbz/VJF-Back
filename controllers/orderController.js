@@ -99,7 +99,6 @@ exports.getOrder = async (req, res, next) => {
 	try {
 		const user = await User.findOne({ token: req.params.token })
 		const currentOrder = user.orders[user.orders.length - 1] // get the last order pushed
-
 		// CHECK IF USER HAS A LAST ORDER OR HAS NEVER ORDERED
 		if (currentOrder === null) {
 			res.json({ result: 'success', message: 'no order yet' })
@@ -142,7 +141,6 @@ exports.updateOrder = async (req, res, next) => {
 	}
 }
 
-// Make order only in favorites
 exports.makeOrderInFav = async (req, res, next) => {
 	try {
 		// Get the current user
@@ -157,9 +155,9 @@ exports.makeOrderInFav = async (req, res, next) => {
 		const meals = await user.populate('favorites')
 		// Get meals from favorites
 		const favmeals = meals.favorites
-		// select one random meal among the returned meals
+		// Select one random meal among the returned meals
 		const selectedMeal = favmeals[Math.floor(Math.random() * favmeals.length)]
-		// handle case when no meal fits all the criteria
+		// Handle case when no meal fits all the criteria
 		if (!selectedMeal) {
 			res.json({
 				result: 'error',
@@ -216,15 +214,14 @@ exports.payment = async (req, res, next) => {
 	try {
 		const paymentIntent = await stripe.paymentIntents.create(params);
 
-		// Send publishable key and PaymentIntent details to client
 		res.send({
 			clientSecret: paymentIntent.client_secret,
 		});
-	} catch (e) {
+	} catch (error) {
 		return res.status(400).send({
 			error: {
 				result: 'fail',
-				message: e.message,
+				message: error.message,
 			},
 		});
 	}
