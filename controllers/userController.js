@@ -8,6 +8,7 @@ const sendEmail = require('../functions/sendEmail') //import function to send em
 exports.signUp = async (req, res, next) => {
 	let result = 'fail'
 	let token = null
+
 	try {
 		// Check if this user already exist
 		let user = await User.findOne({ email: req.body.emailFromFront })
@@ -40,13 +41,7 @@ exports.signUp = async (req, res, next) => {
 			email: req.body.emailFromFront,
 			phone: req.body.phoneFromFront,
 			password: hash,
-			token: uid2(32),
-			adresse: req.body.adresse,
-			allergies: [req.body.allergies],
-			regimeAlim: req.body.regimeAlim,
-			dont: [req.body.dont],
-			orders: [req.body.orders],
-			favorites: [req.body.favorites],
+			token: uid2(32)
 		})
 		// Save user in MongoDB
 		saveUser = await newUser.save()
@@ -62,7 +57,7 @@ exports.signUp = async (req, res, next) => {
 			})
 		}
 		// Response Object
-		res.json({ result, saveUser, token })
+		res.json({ result, token })
 		// Catch error & send to front
 	} catch (err) {
 		// Create error variable with err.message
@@ -80,6 +75,7 @@ exports.signIn = async (req, res, next) => {
 	let user = null
 	let result = 'fail'
 	let token = null
+
 	try {
 		// Check if fields is correctly filled
 		if (req.body.emailFromFront == '' || req.body.passwordFromFront == '') {
@@ -103,7 +99,7 @@ exports.signIn = async (req, res, next) => {
 			throw Error('Bad Email!')
 		}
 		// Response Object
-		res.json({ result, user, token })
+		res.json({ result, token })
 		// Catch error & send to front
 	} catch (err) {
 		// Create error variable with err.message
@@ -136,9 +132,8 @@ exports.getUserInfo = async (req, res, next) => {
 		}
 
 		res.json({ result: 'success', userInfo })
-	} catch (err) {
 		// Catch error
-		// console.log(err)
+	} catch (err) {
 		res.statusCode = 400
 		res.json({ result: 'fail', message: err.message })
 	}
@@ -237,7 +232,6 @@ exports.getAllergies = async (req, res, next) => {
 	try {
 		var user = await User.findOne({ token: req.params.token })
 			.populate('allergies')
-
 		res.json({ result: 'success', allergies: user.allergies })
 	} catch (err) {
 		res.statusCode = 400
@@ -250,7 +244,6 @@ exports.delAllergies = async (req, res, next) => {
 	try {
 		var user = await User.findOne({ token: req.params.token })
 			.populate('allergies')
-
 		var allergyList = user.allergies
 		allergies = allergyList.filter(element => element !== req.params.allergy)
 		var delAllergies = await User.updateOne(
@@ -271,8 +264,6 @@ exports.delAllergies = async (req, res, next) => {
 exports.donts = async (req, res, next) => {
 	try {
 		var user = await User.findOne({ token: req.params.token })
-			.populate('dont')
-
 		res.json({ result: 'sucess', donts: user.dont })
 	} catch (err) {
 		res.json({ result: 'fail', message: err.message })
@@ -294,13 +285,10 @@ exports.addToBlacklist = async (req, res, next) => {
 
 exports.adddonts = async (req, res, next) => {
 	try {
-		var adddonts = await User.findOne({ token: req.params.token })
-			.populate('dont')
-
 		const updateDonts = await User.findOneAndUpdate(
 			{ token: req.params.token },
 			{ $push: { dont: req.body.dont } },
-			{ new: true }
+			{ new: true } // get the new doc updated 
 		)
 		res.json({ result: 'success', donts: updateDonts })
 	} catch (err) {
@@ -313,7 +301,7 @@ exports.deletedonts = async (req, res, next) => {
 		const updateDonts = await User.findOneAndUpdate(
 			{ token: req.params.token },
 			{ $pull: { dont: req.params.dont } },
-			{ new: true }
+			{ new: true } // get the new doc updated 
 		)
 
 		res.json({ result: 'success', donts: updateDonts.dont })

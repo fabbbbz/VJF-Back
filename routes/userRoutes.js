@@ -18,6 +18,7 @@ const {
 	deletedonts,
 	updateDiet,
 } = require('../controllers/userController')
+
 // SigIn SignUp
 router.post('/sign-up', signUp)
 router.post('/sign-in', signIn)
