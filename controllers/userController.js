@@ -4,6 +4,7 @@ const Order = require('../models/Orders')
 const bcrypt = require('bcrypt')
 const validateEmail = require('../functions/validateEmails') //import function to check emails
 const sendEmail = require('../functions/sendEmail') //import function to send emails
+
 exports.signUp = async (req, res, next) => {
 	let result = 'fail'
 	let token = null
@@ -39,13 +40,7 @@ exports.signUp = async (req, res, next) => {
 			email: req.body.emailFromFront,
 			phone: req.body.phoneFromFront,
 			password: hash,
-			token: uid2(32),
-			adresse: req.body.adresse,
-			allergies: [req.body.allergies],
-			regimeAlim: req.body.regimeAlim,
-			dont: [req.body.dont],
-			orders: [req.body.orders],
-			favorites: [req.body.favorites],
+			token: uid2(32)
 		})
 		// Save user in MongoDB
 		saveUser = await newUser.save()
