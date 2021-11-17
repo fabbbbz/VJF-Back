@@ -57,7 +57,7 @@ exports.signUp = async (req, res, next) => {
 			})
 		}
 		// Response Object
-		res.json({ result, token: token })
+		res.json({ result: result, token: token })
 		// Catch error & send to front
 	} catch (err) {
 		// Create error variable with err.message
@@ -99,7 +99,7 @@ exports.signIn = async (req, res, next) => {
 			throw Error('Bad Email!')
 		}
 		// Response Object
-		res.json({ result, token: token })
+		res.json({ result: result, token: token })
 		// Catch error & send to front
 	} catch (err) {
 		let error = err.message  // Create error variable with err.message
