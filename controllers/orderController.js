@@ -1,6 +1,7 @@
 const User = require('../models/Users')
 const Order = require('../models/Orders')
 const Meal = require('../models/Meals')
+const Restaurant = require('../models/Restaurants')
 const dotenv = require('dotenv')
 dotenv.config({ path: './config.env' })
 const stripeSK = (process.env.SECRET_KEY)
@@ -145,16 +146,17 @@ exports.makeOrderInFav = async (req, res, next) => {
 	try {
 		// Get the current user
 		const user = await User.findOne({ token: req.params.token })
+			.populate('favorites')
 		if (!user) {
 			res.json({
 				result: 'fail',
 				message: 'Token not found. Cant find the user',
 			})
-			return
+			return // whaaaat 
 		}
-		const meals = await user.populate('favorites')
+		//const meals = await user.populate('favorites')
 		// Get meals from favorites
-		const favmeals = meals.favorites
+		const favmeals = user.favorites
 		// Select one random meal among the returned meals
 		const selectedMeal = favmeals[Math.floor(Math.random() * favmeals.length)]
 		// Handle case when no meal fits all the criteria
@@ -187,33 +189,16 @@ exports.makeOrderInFav = async (req, res, next) => {
 		res.json({ result: 'fail', err: err.message })
 	}
 }
-exports.payment = async (req, res, next) => {
-	const { paymentMethodType, currency } = req.body;
-	var prix = req.body.price * 100
-	const params = {
-		payment_method_types: [paymentMethodType],
-		amount: prix,
-		currency: "eur",
-	}
-	const paymentIntent = await stripe.paymentIntents.create({
-		payment_method_types: ['card'],
-		amount: params.amount,
-		currency: params.currency,
-	});
-	const clientSecret = paymentIntent.client_secret
-	if (paymentMethodType === 'acss_debit') {
-		params.payment_method_options = {
-			acss_debit: {
-				mandate_options: {
-					payment_schedule: 'sporadic',
-					transaction_type: 'personal',
-				},
-			},
-		}
-	}
-	try {
-		const paymentIntent = await stripe.paymentIntents.create(params);
 
+exports.payment = async (req, res, next) => {
+	try {
+		var prix = req.body.price * 100 //centime => euro 
+		const params = {
+			payment_method_types: ['card'],
+			amount: prix,
+			currency: "eur"
+		}
+		const paymentIntent = await stripe.paymentIntents.create(params);
 		res.send({
 			clientSecret: paymentIntent.client_secret,
 		});

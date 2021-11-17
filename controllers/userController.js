@@ -75,7 +75,6 @@ exports.signIn = async (req, res, next) => {
 	let user = null
 	let result = 'fail'
 	let token = null
-
 	try {
 		// Check if fields is correctly filled
 		if (req.body.emailFromFront == '' || req.body.passwordFromFront == '') {
@@ -141,9 +140,10 @@ exports.getUserInfo = async (req, res, next) => {
 
 exports.favorites = async (req, res, next) => {
 	try {
-		var favorites = await User.findOne({ token: req.params.token })
+		var user = await User.findOne({ token: req.params.token })
 			.populate('favorites')
-		res.json({ result: 'success', favorites: favorites.favorites })
+
+		res.json({ result: 'success', favorites: user.favorites })
 	} catch (err) {
 		res.json({ result: 'fail', message: err.message })
 	}
@@ -162,16 +162,17 @@ exports.favoritesAdd = async (req, res, next) => {
 	}
 }
 
+// TO CHECK USERFAV PAS NECESSAIRE 
 exports.favoritesDel = async (req, res, next) => {
 	try {
 		var updateFavorites = await User.updateOne(
 			{ token: req.params.token },
 			{ $pull: { favorites: req.params.meal_id } }
 		)
-		var favorites = await User.findOne({ token: req.params.token }).populate(
+		var userFav = await User.findOne({ token: req.params.token }).populate(
 			'favorites'
 		)
-		res.json({ result: 'success', favorites: favorites })
+		res.json({ result: 'success', favorites: userFav.favorites })
 	} catch (err) {
 		// Catch error
 		res.statusCode = 400
@@ -231,7 +232,6 @@ exports.history = async (req, res, next) => {
 exports.getAllergies = async (req, res, next) => {
 	try {
 		var user = await User.findOne({ token: req.params.token })
-			.populate('allergies')
 		res.json({ result: 'success', allergies: user.allergies })
 	} catch (err) {
 		res.statusCode = 400
@@ -240,10 +240,10 @@ exports.getAllergies = async (req, res, next) => {
 	}
 }
 
+// TO CHECK !!! 
 exports.delAllergies = async (req, res, next) => {
 	try {
 		var user = await User.findOne({ token: req.params.token })
-			.populate('allergies')
 		var allergyList = user.allergies
 		allergies = allergyList.filter(element => element !== req.params.allergy)
 		var delAllergies = await User.updateOne(
@@ -254,8 +254,8 @@ exports.delAllergies = async (req, res, next) => {
 			'allergies'
 		)
 		res.json({ result: 'success', allergies: newAllergies })
-	} catch (err) {
 		// Catch error
+	} catch (err) {
 		res.statusCode = 400
 		res.json({ result: 'fail', message: err.message })
 	}
