@@ -57,7 +57,7 @@ exports.signUp = async (req, res, next) => {
 			})
 		}
 		// Response Object
-		res.json({ result, token })
+		res.json({ result, token: token })
 		// Catch error & send to front
 	} catch (err) {
 		// Create error variable with err.message

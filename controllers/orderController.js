@@ -195,7 +195,6 @@ exports.makeOrderInFav = async (req, res, next) => {
 exports.payment = async (req, res, next) => {
 	try {
 		var prix = req.body.price * 100 //centime => euro 
-
 		const customer = {
 			name: 'Fab', //req.body.name,
 			email: 'IloveFood@mamamia.com',  //req.body.email,
@@ -204,7 +203,7 @@ exports.payment = async (req, res, next) => {
 			payment_method: ['card'],
 			amount: prix,
 			currency: "eur",
-			description: "Vite j'ai faim World Company"
+			description: "Vite j'ai faim a World Company"
 		};
 
 		const customerInfo = await stripe.customers.create(customer);
