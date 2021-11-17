@@ -99,7 +99,7 @@ exports.signIn = async (req, res, next) => {
 			throw Error('Bad Email!')
 		}
 		// Response Object
-		res.json({ result, token })
+		res.json({ result, token: token })
 		// Catch error & send to front
 	} catch (err) {
 		let error = err.message  // Create error variable with err.message
