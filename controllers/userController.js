@@ -6,8 +6,6 @@ const validateEmail = require('../functions/validateEmails') //import function t
 const sendEmail = require('../functions/sendEmail') //import function to send emails
 
 exports.signUp = async (req, res, next) => {
-	let result = 'fail'
-	let token = null
 	try {
 		// Check if this user already exist
 		let user = await User.findOne({ email: req.body.emailFromFront })
@@ -45,8 +43,7 @@ exports.signUp = async (req, res, next) => {
 		// Save user in MongoDB
 		saveUser = await newUser.save()
 		if (saveUser) {
-			result = 'succes'
-			token = saveUser.token
+			var token = saveUser.token
 			// Send email
 			const message = `Bonjour à toi jeune aventurier du goût ! Nous sommes ravis que tu aies choisi Vite J'ai Faim. Bon appétit ${saveUser.firstName}`
 			await sendEmail({
@@ -56,7 +53,7 @@ exports.signUp = async (req, res, next) => {
 			})
 		}
 		// Response Object
-		res.json({ result: result, token: token })
+		res.json({ result: 'succes', token: token })
 		// Catch error & send to front
 	} catch (err) {
 		// Create error variable with err.message

@@ -191,44 +191,15 @@ exports.makeOrderInFav = async (req, res, next) => {
 	}
 }
 
-// exports.payment = async (req, res, next) => {
-// 	try {
-// 		var prix = req.body.price * 100 //centime => euro 
-// 		const customer = {
-// 			name: 'Fab', //req.body.name,
-// 			email: 'IloveFood@mamamia.com',  //req.body.email,
-// 		};
-// 		const paiement = {
-// 			payment_method: ['card'],
-// 			amount: prix,
-// 			currency: "eur",
-// 			description: "Vite j'ai faim a World Company"
-// 		};
-
-// 		const customerInfo = await stripe.customers.create(customer);
-// 		const paymentIntent = await stripe.paymentIntents.create(paiement);
-// 		res.send({
-// 			clientSecret: paymentIntent.client_secret,
-// 		});
-// 	} catch (error) {
-// 		return res.status(400).send({
-// 			error: {
-// 				result: 'fail',
-// 				message: error.message,
-// 			},
-// 		});
-// 	}
-// }
-
 exports.payment = async (req, res, next) => {
 	try {
 		var prix = req.body.price * 100 //centime => euro 
-		const params = {
-			payment_method_types: ['card'],
+		const paiement = {
 			amount: prix,
-			currency: "eur"
-		}
-		const paymentIntent = await stripe.paymentIntents.create(params);
+			currency: "eur",
+			description: "Vite j'ai faim a World Company"
+		};
+		const paymentIntent = await stripe.paymentIntents.create(paiement)
 		res.send({
 			clientSecret: paymentIntent.client_secret,
 		});
