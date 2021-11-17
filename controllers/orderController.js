@@ -198,7 +198,7 @@ exports.payment = async (req, res, next) => {
 
 		const customer = {
 			name: 'Fab', //req.body.name,
-			email: 'fabienlegrave@gmail.com',  //req.body.email,
+			email: 'IloveFood@mamamia.com',  //req.body.email,
 		};
 		const paiement = {
 			payment_method: ['card'],
