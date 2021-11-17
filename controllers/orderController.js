@@ -3,10 +3,12 @@ const Order = require('../models/Orders')
 const Meal = require('../models/Meals')
 const Restaurant = require('../models/Restaurants')
 const dotenv = require('dotenv')
+const { getMaxListeners } = require('superagent')
 dotenv.config({ path: './config.env' })
 const stripeSK = (process.env.SECRET_KEY)
 const stripe = require('stripe')(`${stripeSK}`)
-const MAX_DISTANCE = 3 // Distance max de livraison, en km
+
+const MAX_DISTANCE = 1000 // Distance max de livraison, en km
 
 exports.makeOrder = async (req, res, next) => {
 	try {
@@ -26,10 +28,9 @@ exports.makeOrder = async (req, res, next) => {
 			return
 		}
 		// make one array with his donts and allergies to compare with the meals ingredients
-		const nogo = user.dont.concat(user.allergies)
+		const nogo = user.dont.concat(user.allergies) //make 1 array 
 		// make everything lowercase
 		const nogoLower = nogo.map(nogo => nogo.toLowerCase())
-
 		// handle full random mood
 		const mood =
 			req.body.mood !== 'all'
@@ -49,15 +50,16 @@ exports.makeOrder = async (req, res, next) => {
 
 		// find all the meals that fit the user profile
 		const meals = await Meal.find({
-			regimeAlim: { $in: user.regimeAlim },
+			regimeAlim: { $in: user.regimeAlim }, //$in = match 
 			mood: { $in: mood },
-			price: { $gte: req.body.minprice, $lte: req.body.maxprice },
-			ingredients: { $nin: nogoLower },
+			price: { $gte: req.body.minprice, $lte: req.body.maxprice }, // gte=plus grand que | lte = plus petit que 
+			ingredients: { $nin: nogoLower }, //$nin = dont match 
 			_id: { $nin: user.blacklist },
 		}).populate({
 			path: 'restaurants',
+			// populate only matches restaurants 
 			match: {
-				location: { $geoWithin: { $centerSphere: [[lng, lat], radius] } },
+				location: { $geoWithin: { $centerSphere: [[lng, lat], radius] } }, //$geoWithin = method mongo related to Restaurant Model
 			},
 		})
 
@@ -86,7 +88,7 @@ exports.makeOrder = async (req, res, next) => {
 		const updatedUser = await User.findByIdAndUpdate(
 			user._id,
 			{ $push: { orders: order._id } },
-			{ new: true }
+			{ new: true } // Return the modified document
 		)
 		// Send to front
 		res.json({ result: 'success', selectedMeal, order, updatedUser })
@@ -105,7 +107,7 @@ exports.getOrder = async (req, res, next) => {
 			res.json({ result: 'success', message: 'no order yet' })
 			return
 		}
-
+		// populate le meal du current order & populate restaurant  du meal
 		const orderDetails = await Order.findById(currentOrder).populate({
 			path: 'meals',
 			populate: {
@@ -193,12 +195,20 @@ exports.makeOrderInFav = async (req, res, next) => {
 exports.payment = async (req, res, next) => {
 	try {
 		var prix = req.body.price * 100 //centime => euro 
-		const params = {
-			payment_method_types: ['card'],
+
+		const customer = {
+			name: 'Fab', //req.body.name,
+			email: 'fabienlegrave@gmail.com',  //req.body.email,
+		};
+		const paiement = {
+			payment_method: ['card'],
 			amount: prix,
-			currency: "eur"
-		}
-		const paymentIntent = await stripe.paymentIntents.create(params);
+			currency: "eur",
+			description: "Vite j'ai faim World Company"
+		};
+
+		const customerInfo = await stripe.customers.create(customer);
+		const paymentIntent = await stripe.paymentIntents.create(paiement);
 		res.send({
 			clientSecret: paymentIntent.client_secret,
 		});
@@ -211,3 +221,4 @@ exports.payment = async (req, res, next) => {
 		});
 	}
 }
+

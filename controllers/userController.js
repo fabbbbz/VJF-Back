@@ -75,6 +75,7 @@ exports.signIn = async (req, res, next) => {
 	let user = null
 	let result = 'fail'
 	let token = null
+
 	try {
 		// Check if fields is correctly filled
 		if (req.body.emailFromFront == '' || req.body.passwordFromFront == '') {
@@ -101,10 +102,8 @@ exports.signIn = async (req, res, next) => {
 		res.json({ result, token })
 		// Catch error & send to front
 	} catch (err) {
-		// Create error variable with err.message
-		let error = err.message
-		// Add error status
-		res.statusCode = 400
+		let error = err.message  // Create error variable with err.message
+		res.statusCode = 400   // Add error status
 		// Response Object
 		res.json({
 			result,
@@ -133,7 +132,7 @@ exports.getUserInfo = async (req, res, next) => {
 		res.json({ result: 'success', userInfo })
 		// Catch error
 	} catch (err) {
-		res.statusCode = 400
+		res.statusCode = 400  // Add error status
 		res.json({ result: 'fail', message: err.message })
 	}
 }
@@ -145,6 +144,7 @@ exports.favorites = async (req, res, next) => {
 
 		res.json({ result: 'success', favorites: user.favorites })
 	} catch (err) {
+		res.statusCode = 400  // Add error status
 		res.json({ result: 'fail', message: err.message })
 	}
 }
@@ -153,11 +153,12 @@ exports.favoritesAdd = async (req, res, next) => {
 	try {
 		const user = await User.findOneAndUpdate(
 			{ token: req.body.token },
-			{ $addToSet: { favorites: req.body.meal_id } },
+			{ $addToSet: { favorites: req.body.meal_id } }, // Add value is not present
 		)
 		res.json({ result: 'success', favorites: user.favorites })
+		// Catch error
 	} catch (err) {
-		res.statusCode = 400
+		res.statusCode = 400 	// Add error status
 		res.json({ result: 'fail', message: err.message })
 	}
 }
@@ -173,27 +174,28 @@ exports.favoritesDel = async (req, res, next) => {
 			'favorites'
 		)
 		res.json({ result: 'success', favorites: userFav.favorites })
-	} catch (err) {
 		// Catch error
-		res.statusCode = 400
+	} catch (err) {
+		res.statusCode = 400  // Add error status
 		res.json({ result: 'fail', message: err.message })
 	}
 }
 
 exports.updateUser = async (req, res, next) => {
 	try {
+		// req.body.diet & req.body.dont & req.body.allergies
 		const { diet, dont, allergies } = req.body
 		const doc = await User.findOneAndUpdate(
 			{ token: req.params.token },
 			{ regimeAlim: diet, dont: dont, allergies: allergies },
-			{ new: true }
+			{ new: true } // Update the doc 
 		)
 		if (!doc) {
 			throw new Error("User could'n be updated")
 		}
 		res.json({ result: 'success', doc })
 	} catch (err) {
-		res.statusCode = 400
+		res.statusCode = 400 	// Add error status
 		res.json({ result: 'fail', message: err.message })
 	}
 }
@@ -206,7 +208,7 @@ exports.updateUserAddress = async (req, res, next) => {
 		)
 		res.json({ result: 'success' })
 	} catch (err) {
-		res.statusCode = 400
+		res.statusCode = 400 	// Add error status
 		res.json({ result: 'fail', message: err.message })
 	}
 }
@@ -224,7 +226,7 @@ exports.history = async (req, res, next) => {
 		})
 		res.json({ result: 'success', meals: meals })
 	} catch (err) {
-		res.statusCode = 400
+		res.statusCode = 400 	// Add error status
 		res.json({ result: 'fail', message: err.message })
 	}
 }
@@ -233,9 +235,9 @@ exports.getAllergies = async (req, res, next) => {
 	try {
 		var user = await User.findOne({ token: req.params.token })
 		res.json({ result: 'success', allergies: user.allergies })
-	} catch (err) {
-		res.statusCode = 400
 		// Catch error
+	} catch (err) {
+		res.statusCode = 400 	// Add error status
 		res.json({ result: 'fail', message: err.message })
 	}
 }
@@ -256,7 +258,7 @@ exports.delAllergies = async (req, res, next) => {
 		res.json({ result: 'success', allergies: newAllergies })
 		// Catch error
 	} catch (err) {
-		res.statusCode = 400
+		res.statusCode = 400 	// Add error status
 		res.json({ result: 'fail', message: err.message })
 	}
 }
@@ -266,6 +268,7 @@ exports.donts = async (req, res, next) => {
 		var user = await User.findOne({ token: req.params.token })
 		res.json({ result: 'sucess', donts: user.dont })
 	} catch (err) {
+		res.statusCode = 400 	// Add error status
 		res.json({ result: 'fail', message: err.message })
 	}
 }
@@ -274,11 +277,12 @@ exports.addToBlacklist = async (req, res, next) => {
 	try {
 		const user = await User.findOneAndUpdate(
 			{ token: req.params.token },
-			{ $addToSet: { blacklist: req.body.mealId } },
-			{ new: true }
+			{ $addToSet: { blacklist: req.body.mealId } }, //Add value is not present
+			{ new: true } // Return the modified document
 		)
 		res.json({ result: 'sucess', user })
 	} catch (err) {
+		res.statusCode = 400 	// Add error status
 		res.json({ result: 'fail', message: err.message })
 	}
 }
@@ -288,10 +292,11 @@ exports.adddonts = async (req, res, next) => {
 		const updateDonts = await User.findOneAndUpdate(
 			{ token: req.params.token },
 			{ $push: { dont: req.body.dont } },
-			{ new: true } // get the new doc updated 
+			{ new: true } // Return the modified document
 		)
 		res.json({ result: 'success', donts: updateDonts })
 	} catch (err) {
+		res.statusCode = 400 	// Add error status
 		res.json({ result: 'fail', message: err.message })
 	}
 }
@@ -301,11 +306,11 @@ exports.deletedonts = async (req, res, next) => {
 		const updateDonts = await User.findOneAndUpdate(
 			{ token: req.params.token },
 			{ $pull: { dont: req.params.dont } },
-			{ new: true } // get the new doc updated 
+			{ new: true } // Return the modified document
 		)
-
 		res.json({ result: 'success', donts: updateDonts.dont })
 	} catch (err) {
+		res.statusCode = 400 	// Add error status
 		res.json({ result: 'fail', message: err.message })
 	}
 }
@@ -315,10 +320,11 @@ exports.updateDiet = async (req, res, next) => {
 		const user = await User.findOneAndUpdate(
 			{ token: req.body.token },
 			{ regimeAlim: req.body.diet },
-			{ new: true }
+			{ new: true } // Return the modified document
 		)
 		res.json({ result: 'success', newDiet: user.regimeAlim })
 	} catch (err) {
+		res.statusCode = 400 	// Add error status
 		res.json({ result: 'fail', message: err.message })
 	}
 }
