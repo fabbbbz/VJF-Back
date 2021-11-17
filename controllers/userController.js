@@ -4,11 +4,9 @@ const Order = require('../models/Orders')
 const bcrypt = require('bcrypt')
 const validateEmail = require('../functions/validateEmails') //import function to check emails
 const sendEmail = require('../functions/sendEmail') //import function to send emails
-
 exports.signUp = async (req, res, next) => {
 	let result = 'fail'
 	let token = null
-
 	try {
 		// Check if this user already exist
 		let user = await User.findOne({ email: req.body.emailFromFront })
@@ -41,7 +39,13 @@ exports.signUp = async (req, res, next) => {
 			email: req.body.emailFromFront,
 			phone: req.body.phoneFromFront,
 			password: hash,
-			token: uid2(32)
+			token: uid2(32),
+			adresse: req.body.adresse,
+			allergies: [req.body.allergies],
+			regimeAlim: req.body.regimeAlim,
+			dont: [req.body.dont],
+			orders: [req.body.orders],
+			favorites: [req.body.favorites],
 		})
 		// Save user in MongoDB
 		saveUser = await newUser.save()
@@ -57,7 +61,7 @@ exports.signUp = async (req, res, next) => {
 			})
 		}
 		// Response Object
-		res.json({ result: result, token: token })
+		res.json({ result, saveUser, token })
 		// Catch error & send to front
 	} catch (err) {
 		// Create error variable with err.message
@@ -75,7 +79,6 @@ exports.signIn = async (req, res, next) => {
 	let user = null
 	let result = 'fail'
 	let token = null
-
 	try {
 		// Check if fields is correctly filled
 		if (req.body.emailFromFront == '' || req.body.passwordFromFront == '') {
@@ -99,11 +102,13 @@ exports.signIn = async (req, res, next) => {
 			throw Error('Bad Email!')
 		}
 		// Response Object
-		res.json({ result: result, token: token })
+		res.json({ result, user, token })
 		// Catch error & send to front
 	} catch (err) {
-		let error = err.message  // Create error variable with err.message
-		res.statusCode = 400   // Add error status
+		// Create error variable with err.message
+		let error = err.message
+		// Add error status
+		res.statusCode = 400
 		// Response Object
 		res.json({
 			result,
@@ -111,6 +116,7 @@ exports.signIn = async (req, res, next) => {
 		})
 	}
 }
+
 
 exports.getUserInfo = async (req, res, next) => {
 	try {
