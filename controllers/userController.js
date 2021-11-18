@@ -45,6 +45,7 @@ exports.signUp = async (req, res, next) => {
 		// Save user in MongoDB
 		saveUser = await newUser.save()
 		if (saveUser) {
+			result = 'success'
 			token = saveUser.token
 			// Send email
 			const message = `Bonjour à toi jeune aventurier du goût ! Nous sommes ravis que tu aies choisi Vite J'ai Faim. Bon appétit ${saveUser.firstName}`
