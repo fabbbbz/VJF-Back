@@ -194,7 +194,7 @@ exports.payment = async (req, res, next) => {
 	try {
 		const user = await User.findOne({ token: req.body.token }) // get User
 		const currentOrder = user.orders[user.orders.length - 1] // get the last order pushed
-		// populate le meal du current order & populate restaurant  du meal
+		// Get last meal 
 		const orderDetails = await Order.findById(currentOrder).populate({
 			path: 'meals'
 		})
