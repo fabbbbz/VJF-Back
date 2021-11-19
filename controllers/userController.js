@@ -184,12 +184,22 @@ exports.favoritesDel = async (req, res, next) => {
 
 exports.updateUser = async (req, res, next) => {
 	try {
-		// req.body.diet & req.body.dont & req.body.allergies
-		const { diet, dont, allergies } = req.body
+		// req.body.diet & req.body.dont & req.body.allergies....
+		const { diet, dont, allergies, phone, lastName, firstName, email, adresse } = req.body
 		const doc = await User
 			.findOneAndUpdate(
 				{ token: req.params.token },
-				{ regimeAlim: diet, dont: dont, allergies: allergies },
+				{
+					regimeAlim: diet,
+					dont: dont,
+					allergies: allergies,
+					phone: phone,
+					lastName: lastName,
+					firstName: firstName,
+					email: email,
+					adresse: adresse
+				},
+
 				{ new: true } // Update the doc 
 			)
 		if (!doc) {

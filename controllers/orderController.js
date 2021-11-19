@@ -203,7 +203,8 @@ exports.payment = async (req, res, next) => {
 		const currentOrder = user.orders[user.orders.length - 1] // get the last order pushed
 		// Get last meal 
 		const orderDetails = await Order.findById(currentOrder)
-			.populate({ path: 'meals' })
+			.populate('meals')
+
 		// Params for paiement creation
 		const paiement = {
 			amount: req.body.price * 100, //centime => euro
