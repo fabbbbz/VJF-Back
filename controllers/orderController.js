@@ -4,8 +4,7 @@ const Meal = require('../models/Meals')
 const Restaurant = require('../models/Restaurants')
 const dotenv = require('dotenv')
 dotenv.config({ path: './config.env' })
-const stripeSK = (process.env.SECRET_KEY)
-const stripe = require('stripe')(`${stripeSK}`)
+const stripe = require('stripe')(process.env.SECRET_KEY)
 
 const MAX_DISTANCE = 1000 // Distance max de livraison, en km
 
@@ -91,6 +90,7 @@ exports.makeOrder = async (req, res, next) => {
 		)
 		// Send to front
 		res.json({ result: 'success', selectedMeal, order, updatedUser })
+
 	} catch (err) {
 		res.statusCode = 400
 		res.json({ result: 'fail', err: err.message })
@@ -101,7 +101,7 @@ exports.getOrder = async (req, res, next) => {
 	try {
 		const user = await User.findOne({ token: req.params.token })
 		const currentOrder = user.orders[user.orders.length - 1] // get the last order pushed
-		// CHECK IF USER HAS A LAST ORDER OR HAS NEVER ORDERED
+		// Check if user has a last order or has never ordered
 		if (currentOrder === null) {
 			res.json({ result: 'success', message: 'no order yet' })
 			return
@@ -153,9 +153,8 @@ exports.makeOrderInFav = async (req, res, next) => {
 				result: 'fail',
 				message: 'Token not found. Cant find the user',
 			})
-			return // whaaaat 
+			return
 		}
-		//const meals = await user.populate('favorites')
 		// Get meals from favorites
 		const favmeals = user.favorites
 		// Select one random meal among the returned meals
@@ -193,14 +192,15 @@ exports.makeOrderInFav = async (req, res, next) => {
 
 exports.payment = async (req, res, next) => {
 	try {
-
+		// Params for paiement creation
 		const paiement = {
-			amount: req.body.price * 100, //centime => euro ,
+			amount: req.body.price * 100, //centime => euro
 			currency: req.body.currency,
 			description: "Vite j'ai faim a World Company"
 		};
+		//Send request to stripe
 		const paymentIntent = await stripe.paymentIntents.create(paiement)
-
+		//Return paiement secret
 		res.send({
 			clientSecret: paymentIntent.client_secret,
 		});

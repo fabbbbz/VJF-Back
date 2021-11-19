@@ -7,7 +7,6 @@ const sendEmail = require('../functions/sendEmail') //import function to send em
 
 exports.signUp = async (req, res, next) => {
 	let result = 'fail'
-	let token = null
 	try {
 		// Check if this user already exist
 		let user = await User.findOne({ email: req.body.emailFromFront })
@@ -46,7 +45,6 @@ exports.signUp = async (req, res, next) => {
 		saveUser = await newUser.save()
 		if (saveUser) {
 			result = 'success'
-			token = saveUser.token
 			// Send email
 			const message = `Bonjour à toi jeune aventurier du goût ! Nous sommes ravis que tu aies choisi Vite J'ai Faim. Bon appétit ${saveUser.firstName}`
 			await sendEmail({
@@ -56,7 +54,7 @@ exports.signUp = async (req, res, next) => {
 			})
 		}
 		// Response Object
-		res.json({ result: result, token: token })
+		res.json({ result: result, token: saveUser.token })
 		// Catch error & send to front
 	} catch (err) {
 		// Create error variable with err.message
@@ -71,23 +69,20 @@ exports.signUp = async (req, res, next) => {
 }
 
 exports.signIn = async (req, res, next) => {
-	let user = null
 	let result = 'fail'
-	let token = null
 	try {
 		// Check if fields is correctly filled
 		if (req.body.emailFromFront == '' || req.body.passwordFromFront == '') {
 			// If field is missing add error is catch
 			throw Error('Field is missing!')
 		} else {
-			user = await User.findOne({
+			var user = await User.findOne({
 				email: req.body.emailFromFront,
 			})
 		}
 		if (user) {
 			if (bcrypt.compareSync(req.body.passwordFromFront, user.password)) {
 				result = 'success'
-				token = user.token
 			} else {
 				// Add error in catch
 				throw Error('Bad password!')
@@ -97,7 +92,7 @@ exports.signIn = async (req, res, next) => {
 			throw Error('Bad Email!')
 		}
 		// Response Object
-		res.json({ result: result, token: token })
+		res.json({ result: result, token: user.token })
 		// Catch error & send to front
 	} catch (err) {
 		// Create error variable with err.message

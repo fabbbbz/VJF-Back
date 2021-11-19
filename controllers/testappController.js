@@ -1,3 +1,4 @@
+// If app is UP return some infos
 exports.testApp = async (req, res, next) => {
     try {
         res.json({ result: 'success', appname: 'Vite Jai Faim!!', version: '0.1' })
