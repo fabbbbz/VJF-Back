@@ -193,13 +193,14 @@ exports.makeOrderInFav = async (req, res, next) => {
 
 exports.payment = async (req, res, next) => {
 	try {
-		var prix = req.body.price * 100 //centime => euro 
+
 		const paiement = {
-			amount: prix,
-			currency: "eur",
+			amount: req.body.price * 100, //centime => euro ,
+			currency: req.body.currency,
 			description: "Vite j'ai faim a World Company"
 		};
 		const paymentIntent = await stripe.paymentIntents.create(paiement)
+
 		res.send({
 			clientSecret: paymentIntent.client_secret,
 		});
