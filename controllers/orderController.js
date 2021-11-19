@@ -16,7 +16,8 @@ exports.makeOrder = async (req, res, next) => {
 			return
 		}
 		// Get the current user
-		const user = await User.findOne({ token: req.params.token })
+		const user = await User
+			.findOne({ token: req.params.token })
 		if (!user) {
 			res.statusCode = 400
 			res.json({
@@ -47,19 +48,20 @@ exports.makeOrder = async (req, res, next) => {
 		const radius = maxDistance / 6378.1 // radians (unit needed to use $centerSphere, dont ask!)
 
 		// find all the meals that fit the user profile
-		const meals = await Meal.find({
-			regimeAlim: { $in: user.regimeAlim }, //$in = match 
-			mood: { $in: mood },
-			price: { $gte: req.body.minprice, $lte: req.body.maxprice }, // gte=plus grand que | lte = plus petit que 
-			ingredients: { $nin: nogoLower }, //$nin = dont match 
-			_id: { $nin: user.blacklist },
-		}).populate({
-			path: 'restaurants',
-			// populate only matches restaurants 
-			match: {
-				location: { $geoWithin: { $centerSphere: [[lng, lat], radius] } }, //$geoWithin = method mongo related to Restaurant Model
-			},
-		})
+		const meals = await Meal
+			.find({
+				regimeAlim: { $in: user.regimeAlim }, //$in = match 
+				mood: { $in: mood },
+				price: { $gte: req.body.minprice, $lte: req.body.maxprice }, // gte=plus grand que | lte = plus petit que 
+				ingredients: { $nin: nogoLower }, //$nin = dont match 
+				_id: { $nin: user.blacklist },
+			}).populate({
+				path: 'restaurants',
+				// populate only matches restaurants 
+				match: {
+					location: { $geoWithin: { $centerSphere: [[lng, lat], radius] } }, //$geoWithin = method mongo related to Restaurant Model
+				},
+			})
 
 		// Filter to keep only the meals who got their restaurant populated
 		const nearbyMeals = meals.filter(meal => meal.restaurants !== null)
@@ -74,20 +76,22 @@ exports.makeOrder = async (req, res, next) => {
 			return
 		}
 		// add a new order to the Order collection
-		const order = await Order.create({
-			client: user._id,
-			meals: selectedMeal._id,
-			price: selectedMeal.price,
-			quantity: req.body.quantity,
-			date: Date.now(),
-			status: 'pending',
-		})
+		const order = await Order
+			.create({
+				client: user._id,
+				meals: selectedMeal._id,
+				price: selectedMeal.price,
+				quantity: req.body.quantity,
+				date: Date.now(),
+				status: 'pending',
+			})
 		// Update the User orders
-		const updatedUser = await User.findByIdAndUpdate(
-			user._id,
-			{ $push: { orders: order._id } },
-			{ new: true } // Return the modified document
-		)
+		const updatedUser = await User
+			.findByIdAndUpdate(
+				user._id,
+				{ $push: { orders: order._id } },
+				{ new: true } // Return the modified document
+			)
 		// Send to front
 		res.json({ result: 'success', selectedMeal, order, updatedUser })
 
@@ -107,12 +111,13 @@ exports.getOrder = async (req, res, next) => {
 			return
 		}
 		// populate le meal du current order & populate restaurant  du meal
-		const orderDetails = await Order.findById(currentOrder).populate({
-			path: 'meals',
-			populate: {
-				path: 'restaurants',
-			},
-		})
+		const orderDetails = await Order.findById(currentOrder)
+			.populate({
+				path: 'meals',
+				populate: {
+					path: 'restaurants',
+				},
+			})
 		if (orderDetails) {
 			res.json({
 				result: 'success',
@@ -131,11 +136,12 @@ exports.getOrder = async (req, res, next) => {
 
 exports.updateOrder = async (req, res, next) => {
 	try {
-		const order = await Order.findByIdAndUpdate(
-			req.params.id,
-			{ status: 'paid' },
-			{ new: true }
-		)
+		const order = await Order
+			.findByIdAndUpdate(
+				req.params.id,
+				{ status: 'paid' },
+				{ new: true }
+			)
 		res.json({ result: 'success', order })
 	} catch (err) {
 		res.statusCode = 400
@@ -168,14 +174,15 @@ exports.makeOrderInFav = async (req, res, next) => {
 			return
 		}
 		// add a new order to the Order collection
-		const order = await Order.create({
-			client: user._id,
-			meals: selectedMeal._id,
-			price: selectedMeal.price,
-			quantity: req.body.quantity,
-			date: Date.now(),
-			status: 'pending',
-		})
+		const order = await Order
+			.create({
+				client: user._id,
+				meals: selectedMeal._id,
+				price: selectedMeal.price,
+				quantity: req.body.quantity,
+				date: Date.now(),
+				status: 'pending',
+			})
 		// Update the User orders
 		const updatedUser = await User.findByIdAndUpdate(
 			user._id,
@@ -195,9 +202,8 @@ exports.payment = async (req, res, next) => {
 		const user = await User.findOne({ token: req.body.token }) // get User
 		const currentOrder = user.orders[user.orders.length - 1] // get the last order pushed
 		// Get last meal 
-		const orderDetails = await Order.findById(currentOrder).populate({
-			path: 'meals'
-		})
+		const orderDetails = await Order.findById(currentOrder)
+			.populate({ path: 'meals' })
 		// Params for paiement creation
 		const paiement = {
 			amount: req.body.price * 100, //centime => euro

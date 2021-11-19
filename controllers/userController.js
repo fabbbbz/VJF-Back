@@ -9,7 +9,8 @@ exports.signUp = async (req, res, next) => {
 	let result = 'fail'
 	try {
 		// Check if this user already exist
-		let user = await User.findOne({ email: req.body.emailFromFront })
+		let user = await User
+			.findOne({ email: req.body.emailFromFront })
 		if (user) {
 			// if exist add error in catch
 			throw Error('That user already exists')
@@ -76,9 +77,10 @@ exports.signIn = async (req, res, next) => {
 			// If field is missing add error is catch
 			throw Error('Field is missing!')
 		} else {
-			var user = await User.findOne({
-				email: req.body.emailFromFront,
-			})
+			var user = await User
+				.findOne({
+					email: req.body.emailFromFront,
+				})
 		}
 		if (user) {
 			if (bcrypt.compareSync(req.body.passwordFromFront, user.password)) {
@@ -110,7 +112,8 @@ exports.signIn = async (req, res, next) => {
 
 exports.getUserInfo = async (req, res, next) => {
 	try {
-		var user = await User.findOne({ token: req.params.token })
+		var user = await User
+			.findOne({ token: req.params.token })
 		var userInfo = {
 			firstName: user.firstName,
 			lastName: user.lastName,
@@ -146,10 +149,11 @@ exports.favorites = async (req, res, next) => {
 
 exports.favoritesAdd = async (req, res, next) => {
 	try {
-		const user = await User.findOneAndUpdate(
-			{ token: req.body.token },
-			{ $addToSet: { favorites: req.body.meal_id } }, // Add value is not present
-		)
+		const user = await User
+			.findOneAndUpdate(
+				{ token: req.body.token },
+				{ $addToSet: { favorites: req.body.meal_id } }, // Add value is not present
+			)
 		res.json({ result: 'success', favorites: user.favorites })
 		// Catch error
 	} catch (err) {
@@ -161,13 +165,15 @@ exports.favoritesAdd = async (req, res, next) => {
 // TO CHECK USERFAV PAS NECESSAIRE 
 exports.favoritesDel = async (req, res, next) => {
 	try {
-		var updateFavorites = await User.updateOne(
-			{ token: req.params.token },
-			{ $pull: { favorites: req.params.meal_id } }
-		)
-		var userFav = await User.findOne({ token: req.params.token }).populate(
-			'favorites'
-		)
+		var updateFavorites = await User
+			.updateOne(
+				{ token: req.params.token },
+				{ $pull: { favorites: req.params.meal_id } }
+			)
+		var userFav = await User.findOne({ token: req.params.token })
+			.populate(
+				'favorites'
+			)
 		res.json({ result: 'success', favorites: userFav.favorites })
 		// Catch error
 	} catch (err) {
@@ -180,11 +186,12 @@ exports.updateUser = async (req, res, next) => {
 	try {
 		// req.body.diet & req.body.dont & req.body.allergies
 		const { diet, dont, allergies } = req.body
-		const doc = await User.findOneAndUpdate(
-			{ token: req.params.token },
-			{ regimeAlim: diet, dont: dont, allergies: allergies },
-			{ new: true } // Update the doc 
-		)
+		const doc = await User
+			.findOneAndUpdate(
+				{ token: req.params.token },
+				{ regimeAlim: diet, dont: dont, allergies: allergies },
+				{ new: true } // Update the doc 
+			)
 		if (!doc) {
 			throw new Error("User could'n be updated")
 		}
@@ -197,10 +204,11 @@ exports.updateUser = async (req, res, next) => {
 
 exports.updateUserAddress = async (req, res, next) => {
 	try {
-		await User.findOneAndUpdate(
-			{ token: req.params.token },
-			{ adresse: req.body.address }
-		)
+		await User
+			.findOneAndUpdate(
+				{ token: req.params.token },
+				{ adresse: req.body.address }
+			)
 		res.json({ result: 'success' })
 	} catch (err) {
 		res.statusCode = 400 	// Add error status
@@ -211,7 +219,8 @@ exports.updateUserAddress = async (req, res, next) => {
 exports.history = async (req, res, next) => {
 	try {
 		var user = await User.findOne({ token: req.params.token })
-		var orders = await Order.find({ client: user._id }).populate('meals')
+		var orders = await Order.find({ client: user._id })
+			.populate('meals')
 		var meals = orders.map((order, i) => {
 			return {
 				mealName: order.meals[0].name,
@@ -228,7 +237,8 @@ exports.history = async (req, res, next) => {
 
 exports.getAllergies = async (req, res, next) => {
 	try {
-		var user = await User.findOne({ token: req.params.token })
+		var user = await User
+			.findOne({ token: req.params.token })
 		res.json({ result: 'success', allergies: user.allergies })
 		// Catch error
 	} catch (err) {
@@ -240,16 +250,19 @@ exports.getAllergies = async (req, res, next) => {
 // TO CHECK !!! 
 exports.delAllergies = async (req, res, next) => {
 	try {
-		var user = await User.findOne({ token: req.params.token })
+		var user = await User
+			.findOne({ token: req.params.token })
 		var allergyList = user.allergies
 		allergies = allergyList.filter(element => element !== req.params.allergy)
-		var delAllergies = await User.updateOne(
-			{ token: req.params.token },
-			{ allergies: allergies }
-		)
-		var newAllergies = await User.findOne({ token: req.params.token }).populate(
-			'allergies'
-		)
+		var delAllergies = await User
+			.updateOne(
+				{ token: req.params.token },
+				{ allergies: allergies }
+			)
+		var newAllergies = await User.findOne({ token: req.params.token })
+			.populate(
+				'allergies'
+			)
 		res.json({ result: 'success', allergies: newAllergies })
 		// Catch error
 	} catch (err) {
@@ -260,7 +273,8 @@ exports.delAllergies = async (req, res, next) => {
 
 exports.donts = async (req, res, next) => {
 	try {
-		var user = await User.findOne({ token: req.params.token })
+		var user = await User
+			.findOne({ token: req.params.token })
 		res.json({ result: 'sucess', donts: user.dont })
 	} catch (err) {
 		res.statusCode = 400 	// Add error status
@@ -270,11 +284,12 @@ exports.donts = async (req, res, next) => {
 
 exports.addToBlacklist = async (req, res, next) => {
 	try {
-		const user = await User.findOneAndUpdate(
-			{ token: req.params.token },
-			{ $addToSet: { blacklist: req.body.mealId } }, //Add value is not present
-			{ new: true } // Return the modified document
-		)
+		const user = await User
+			.findOneAndUpdate(
+				{ token: req.params.token },
+				{ $addToSet: { blacklist: req.body.mealId } }, //Add value is not present
+				{ new: true } // Return the modified document
+			)
 		res.json({ result: 'sucess', user })
 	} catch (err) {
 		res.statusCode = 400 	// Add error status
@@ -284,11 +299,12 @@ exports.addToBlacklist = async (req, res, next) => {
 
 exports.adddonts = async (req, res, next) => {
 	try {
-		const updateDonts = await User.findOneAndUpdate(
-			{ token: req.params.token },
-			{ $push: { dont: req.body.dont } },
-			{ new: true } // Return the modified document
-		)
+		const updateDonts = await User
+			.findOneAndUpdate(
+				{ token: req.params.token },
+				{ $push: { dont: req.body.dont } },
+				{ new: true } // Return the modified document
+			)
 		res.json({ result: 'success', donts: updateDonts })
 	} catch (err) {
 		res.statusCode = 400 	// Add error status
@@ -298,11 +314,12 @@ exports.adddonts = async (req, res, next) => {
 
 exports.deletedonts = async (req, res, next) => {
 	try {
-		const updateDonts = await User.findOneAndUpdate(
-			{ token: req.params.token },
-			{ $pull: { dont: req.params.dont } },
-			{ new: true } // Return the modified document
-		)
+		const updateDonts = await User
+			.findOneAndUpdate(
+				{ token: req.params.token },
+				{ $pull: { dont: req.params.dont } },
+				{ new: true } // Return the modified document
+			)
 		res.json({ result: 'success', donts: updateDonts.dont })
 	} catch (err) {
 		res.statusCode = 400 	// Add error status
@@ -312,11 +329,12 @@ exports.deletedonts = async (req, res, next) => {
 
 exports.updateDiet = async (req, res, next) => {
 	try {
-		const user = await User.findOneAndUpdate(
-			{ token: req.body.token },
-			{ regimeAlim: req.body.diet },
-			{ new: true } // Return the modified document
-		)
+		const user = await User
+			.findOneAndUpdate(
+				{ token: req.body.token },
+				{ regimeAlim: req.body.diet },
+				{ new: true } // Return the modified document
+			)
 		res.json({ result: 'success', newDiet: user.regimeAlim })
 	} catch (err) {
 		res.statusCode = 400 	// Add error status
