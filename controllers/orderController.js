@@ -192,11 +192,17 @@ exports.makeOrderInFav = async (req, res, next) => {
 
 exports.payment = async (req, res, next) => {
 	try {
+		const user = await User.findOne({ token: req.body.token }) // get User
+		const currentOrder = user.orders[user.orders.length - 1] // get the last order pushed
+		// populate le meal du current order & populate restaurant  du meal
+		const orderDetails = await Order.findById(currentOrder).populate({
+			path: 'meals'
+		})
 		// Params for paiement creation
 		const paiement = {
 			amount: req.body.price * 100, //centime => euro
 			currency: req.body.currency,
-			description: "Vite j'ai faim a World Company"
+			description: orderDetails.meals[0].name + " - By Vite j'ai faim a World Company"
 		};
 		//Send request to stripe
 		const paymentIntent = await stripe.paymentIntents.create(paiement)

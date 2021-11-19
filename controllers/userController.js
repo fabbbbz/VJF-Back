@@ -124,7 +124,6 @@ exports.getUserInfo = async (req, res, next) => {
 			favorites: user.favorites,
 			regimeAlim: user.regimeAlim,
 		}
-
 		res.json({ result: 'success', userInfo })
 		// Catch error
 	} catch (err) {
@@ -217,7 +216,7 @@ exports.history = async (req, res, next) => {
 			return {
 				mealName: order.meals[0].name,
 				date: order.date,
-				mealId: order.meals[0]._id,
+				mealId: order.meals[0]._id
 			}
 		})
 		res.json({ result: 'success', meals: meals })
