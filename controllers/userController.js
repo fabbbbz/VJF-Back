@@ -263,7 +263,7 @@ exports.delAllergies = async (req, res, next) => {
 		var user = await User
 			.findOne({ token: req.params.token })
 		var allergyList = user.allergies
-		allergies = allergyList.filter(element => element !== req.params.allergy)
+		var allergies = allergyList.filter(element => element !== req.params.allergy)
 		var delAllergies = await User
 			.updateOne(
 				{ token: req.params.token },
