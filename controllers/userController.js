@@ -4,6 +4,7 @@ const Order = require('../models/Orders')
 const bcrypt = require('bcrypt')
 const validateEmail = require('../functions/validateEmails') //import function to check emails
 const sendEmail = require('../functions/sendEmail') //import function to send emails
+const c = require('config')
 
 exports.signUp = async (req, res, next) => {
 	let result = 'fail'
@@ -162,19 +163,18 @@ exports.favoritesAdd = async (req, res, next) => {
 	}
 }
 
-// TO CHECK USERFAV PAS NECESSAIRE 
 exports.favoritesDel = async (req, res, next) => {
 	try {
-		var updateFavorites = await User
-			.updateOne(
+		var updateFav = await User
+			.findOneAndUpdate(
 				{ token: req.params.token },
-				{ $pull: { favorites: req.params.meal_id } }
+				{ $pull: { favorites: req.params.meal_id } },
+				{ new: true } // Rertun updated doc
+
 			)
-		var userFav = await User.findOne({ token: req.params.token })
-			.populate(
-				'favorites'
-			)
-		res.json({ result: 'success', favorites: userFav.favorites })
+			.populate('favorites')
+
+		res.json({ result: 'success', favorites: updateFav.favorites })
 		// Catch error
 	} catch (err) {
 		res.statusCode = 400  // Add error status
@@ -257,7 +257,6 @@ exports.getAllergies = async (req, res, next) => {
 	}
 }
 
-// TO CHECK !!! 
 exports.delAllergies = async (req, res, next) => {
 	try {
 		const delAllergies = await User
