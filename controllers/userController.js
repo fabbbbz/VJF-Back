@@ -260,20 +260,13 @@ exports.getAllergies = async (req, res, next) => {
 // TO CHECK !!! 
 exports.delAllergies = async (req, res, next) => {
 	try {
-		var user = await User
-			.findOne({ token: req.params.token })
-		var allergyList = user.allergies
-		var allergies = allergyList.filter(element => element !== req.params.allergy)
-		var delAllergies = await User
-			.updateOne(
+		const delAllergies = await User
+			.findOneAndUpdate(
 				{ token: req.params.token },
-				{ allergies: allergies }
+				{ $pull: { allergies: req.params.allergy } },
+				{ new: true } // Return the modified document
 			)
-		var newAllergies = await User.findOne({ token: req.params.token })
-			.populate(
-				'allergies'
-			)
-		res.json({ result: 'success', allergies: newAllergies })
+		res.json({ result: 'success', allergies: delAllergies.allergies })
 		// Catch error
 	} catch (err) {
 		res.statusCode = 400 	// Add error status
