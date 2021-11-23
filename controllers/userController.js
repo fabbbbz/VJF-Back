@@ -14,7 +14,7 @@ exports.signUp = async (req, res, next) => {
 			.findOne({ email: req.body.emailFromFront })
 		if (user) {
 			// if exist add error in catch
-			throw Error('That user already exists')
+			throw Error('Cette adresse email est déjà utilisée')
 		}
 		// Check if fields is correctly filled
 		if (
@@ -24,13 +24,13 @@ exports.signUp = async (req, res, next) => {
 			req.body.passwordFromFront == ''
 		) {
 			// If field is missing add error is catch
-			throw Error('Field is missing!')
+			throw Error('Merci de remplir tous les champs')
 		}
 		// Check if email is correclty formated
 		let checkmail = validateEmail(req.body.emailFromFront)
 		if (checkmail === false) {
 			// if email is not correct add error in catch
-			throw Error('Your Email is not a valid Email adress')
+			throw Error('Merci de vérifier votre adresse Email')
 		}
 		// Get password from front & execute hash
 		var hash = bcrypt.hashSync(req.body.passwordFromFront, 10)
@@ -76,7 +76,7 @@ exports.signIn = async (req, res, next) => {
 		// Check if fields is correctly filled
 		if (req.body.emailFromFront == '' || req.body.passwordFromFront == '') {
 			// If field is missing add error is catch
-			throw Error('Field is missing!')
+			throw Error('Merci de remplir tous les champs')
 		} else {
 			var user = await User
 				.findOne({
@@ -88,11 +88,11 @@ exports.signIn = async (req, res, next) => {
 				result = 'success'
 			} else {
 				// Add error in catch
-				throw Error('Bad password!')
+				throw Error('Merci de vérifier votre mot de passe')
 			}
 		} else {
 			// Add error in catch
-			throw Error('Bad Email!')
+			throw Error('Merci de vérifier votre adresse Email')
 		}
 		// Response Object
 		res.json({ result: result, token: user.token })
