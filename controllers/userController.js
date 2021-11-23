@@ -4,7 +4,6 @@ const Order = require('../models/Orders')
 const bcrypt = require('bcrypt')
 const validateEmail = require('../functions/validateEmails') //import function to check emails
 const sendEmail = require('../functions/sendEmail') //import function to send emails
-const c = require('config')
 
 exports.signUp = async (req, res, next) => {
 	let result = 'fail'
